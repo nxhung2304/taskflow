@@ -1,0 +1,27 @@
+# == Schema Information
+#
+# Table name: tasks
+#
+#  id          :integer          not null, primary key
+#  title       :string           not null
+#  description :text
+#  priority    :integer
+#  due_date    :date
+#  status      :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: TaskOne
+  description: This is the first task.
+  priority: 1
+  due_date: 2025-11-06
+
+two:
+  title: TaskTwo
+  description: This is the second task.
+  priority: 1
+  due_date: 2025-11-06
