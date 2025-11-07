@@ -17,11 +17,13 @@ class Task < ApplicationRecord
   enum :priority, { low: 1, medium: 2, high: 3 }
 
   validates :title, presence: true
-  validates :priority, inclusion: { in: Task.priorities.keys }, allow_nil: true
-  validates :status, inclusion: { in: Task.statuses.keys }, allow_nil: true
   validates :due_date, comparison: { greater_than: -> { Time.zone.today } }, if: -> { due_date.present? }
 
   after_initialize :set_default_status, if: :new_record?
+
+  scope :by_status, ->(status) { where(status: statuses[status]) }
+  scope :by_priority, ->(priority) { where(priority: priorities[priority]) }
+  scope :by_due_date, ->(date) { where(due_date: date) }
 
   private
 
