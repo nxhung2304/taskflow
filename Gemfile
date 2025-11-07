@@ -65,5 +65,3 @@ group :test do
 end
 gem "avo", ">= 3.2.3"
 gem "ransack"
-gem "avo", ">= 3.2.3"
-gem "ransack"
