@@ -1,7 +1,15 @@
 name: CI
 on:
   pull_request:
+    paths-ignore:
+      - '.workflow/**'
+      - '*.md'
+      - '.github/**'
   push:
+    paths-ignore:
+      - '.workflow/**'
+      - '*.md'
+      - '.github/**'
     branches: [ main ]
 
 jobs:
