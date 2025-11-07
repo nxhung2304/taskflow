@@ -1,0 +1,13 @@
+repos:
+  - repo: local
+    hooks:
+      - id: rubocop
+        name: RuboCop
+        entry: bundle exec rubocop
+        language: ruby
+        types: [ruby]
+      - id: rails-test
+        name: Rails Test
+        entry: bundle exec rails test
+        language: system
+        pass_filenames: false
