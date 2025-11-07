@@ -37,6 +37,15 @@ gem "kamal", require: false
 # Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
 gem "thruster", require: false
 
+# The Essential Toolkit for building Internal Tools and admin panels with Ruby on Rails: https://github.com/avo-hq/avo
+gem "avo", ">= 3.2.3"
+
+# Object-based searching: https://github.com/activerecord-hackery/ransack
+gem "ransack"
+
+# Flexible authentication solution for Rails with Warden: https://github.com/heartcombo/devise
+gem "devise"
+
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
@@ -63,5 +72,3 @@ group :test do
   gem "selenium-webdriver"
   gem "shoulda", "~> 4.0"
 end
-gem "avo", ">= 3.2.3"
-gem "ransack"
