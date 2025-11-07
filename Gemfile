@@ -63,3 +63,5 @@ group :test do
   gem "selenium-webdriver"
   gem "shoulda", "~> 4.0"
 end
+gem "avo", ">= 3.2.3"
+gem "ransack"

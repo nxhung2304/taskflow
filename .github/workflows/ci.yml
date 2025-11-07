@@ -86,6 +86,9 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
+      - name: Bundle install (explicit for reliability)
+        run: bundle install
+
       - name: Create database for testing
         env:
           RAILS_ENV: test
@@ -97,11 +100,3 @@ jobs:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
         run: bin/rails test
-
-      - name: Keep screenshots from failed system tests
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: screenshots
-          path: tmp/screenshots
-          if-no-files-found: ignore
