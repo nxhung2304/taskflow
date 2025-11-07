@@ -109,9 +109,7 @@ jobs:
         env:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
-          # REDIS_URL: redis://localhost:6379/0
-        run: bundle exec rspec spec  # Assuming RSpec; adjust to 'bin/rails test' if Minitest
-             # For system tests: bundle exec rspec spec/system (or include in above)
+        run: bin/rails test
 
       - name: Keep screenshots from failed system tests
         if: failure()
