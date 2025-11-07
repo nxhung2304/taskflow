@@ -32,12 +32,24 @@ class TaskTest < ActiveSupport::TestCase
     assert_equal "pending", task.status
   end
 
-  test "due_date must be in the future if provided" do
-    @task.due_date = Date.yesterday
+  test "should due_date can be nil" do
+    @task.due_date = nil
+    assert @task.valid?
+  end
 
+  test "should due_date can be in past" do
+    @task.due_date = Date.yesterday
     assert_not @task.valid?
     assert_includes @task.errors[:due_date], "must be greater than #{Date.today}"
+  end
 
+  test "should due_date cannot be today" do
+    @task.due_date = Date.today
+    assert_not @task.valid?
+    assert_includes @task.errors[:due_date], "must be greater than #{Date.today}"
+  end
+
+  test "should due_date can be in future" do
     @task.due_date = Date.tomorrow
     assert @task.valid?
   end

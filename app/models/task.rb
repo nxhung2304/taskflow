@@ -17,9 +17,9 @@ class Task < ApplicationRecord
   enum :priority, { low: 1, medium: 2, high: 3 }
 
   validates :title, presence: true
-  validates :priority, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
+  validates :priority, inclusion: { in: Task.priorities.keys }, allow_nil: true
   validates :status, inclusion: { in: Task.statuses.keys }, allow_nil: true
-  validates :due_date, comparison: { greater_than: Date.today }, if: -> { due_date.present? }
+  validates :due_date, comparison: { greater_than: -> { Time.zone.today } }, if: -> { due_date.present? }
 
   after_initialize :set_default_status, if: :new_record?
 
