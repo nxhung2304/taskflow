@@ -2,12 +2,12 @@
 #
 # Table name: tasks
 #
-#  id          :integer          not null, primary key
-#  title       :string           not null
+#  id          :bigint           not null, primary key
 #  description :text
-#  priority    :integer
 #  due_date    :date
+#  priority    :integer
 #  status      :integer
+#  title       :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
