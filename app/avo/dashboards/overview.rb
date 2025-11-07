@@ -3,7 +3,7 @@ class Avo::Dashboards::Overview < Avo::Dashboards::BaseDashboard
   self.name = "Overview"
   self.grid_cols = 4
 
-  def cards
-    card Avo::Cards::UsersCount
-  end
+  # def cards
+  #   card Avo::Cards::UsersCount
+  # end
 end
