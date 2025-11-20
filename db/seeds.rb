@@ -2,8 +2,13 @@
 # development, test). The code here should be idempotent so that it can be executed at any point in every environment.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
 #
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+puts "Creating default admin user"
+
+User.find_or_create_by!(email: "user@example.com").tap do |user|
+  puts "  - setting up user with email: #{user.email}, password: 123456"
+  user.name = "Admin"
+  user.password = "123456"
+  user.add_role(:admin) unless user.has_role?(:admin)
+end
+
+puts "Default admin user created"
