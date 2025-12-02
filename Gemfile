@@ -46,6 +46,8 @@ gem "ransack"
 # Flexible authentication solution for Rails with Warden: https://github.com/heartcombo/devise
 gem "devise"
 
+gem "rolify"
+
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 

@@ -18,6 +18,8 @@ module Taskflow
 
     config.api_only = false
 
+    config.active_record.marshalling_format_version = 7.1
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
