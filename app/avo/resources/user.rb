@@ -2,7 +2,6 @@ class Avo::Resources::User < Avo::BaseResource
   self.title = :id
 
   self.includes = [ :roles ]
-  self.search = [ :id, :name, :email ]
 
   def fields
     field :id, as: :id
