@@ -3,12 +3,17 @@
 # Table name: users
 #
 #  id                     :bigint           not null, primary key
+#  allow_password_change  :boolean          default(FALSE)
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
+#  image                  :string
 #  name                   :string           not null
+#  provider               :string           default("email"), not null
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
+#  tokens                 :json
+#  uid                    :string           default(""), not null
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
@@ -18,14 +23,17 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 class User < ApplicationRecord
+  include DeviseTokenAuth::Concerns::User
+
   rolify
 
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+  devise :database_authenticatable, :registerable, :validatable
 
   validates :name, presence: true
+
+  def confirmed_at
+    DateTime.now
+  end
 
   def admin?
     has_role?(:admin)
