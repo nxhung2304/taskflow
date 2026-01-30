@@ -133,6 +133,10 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    devise_token_auth (1.2.6)
+      bcrypt (~> 3.0)
+      devise (> 3.5.2, < 5)
+      rails (>= 4.2.0, < 8.2)
     docile (1.4.1)
     dotenv (3.1.8)
     drb (2.2.3)
@@ -258,6 +262,9 @@ GEM
     raabro (1.4.0)
     racc (1.8.1)
     rack (3.2.4)
+    rack-cors (3.0.0)
+      logger
+      rack (>= 3.0.14)
     rack-session (2.1.1)
       base64 (>= 0.1.0)
       rack (>= 3.0.0)
@@ -441,12 +448,14 @@ DEPENDENCIES
   capybara
   debug
   devise
+  devise_token_auth
   importmap-rails
   jbuilder
   kamal
   pg (~> 1.1)
   propshaft
   puma (>= 5.0)
+  rack-cors
   rails (~> 8.0.3)
   ransack
   rolify
