@@ -4,11 +4,13 @@
 #
 puts "Creating default admin user"
 
-User.find_or_create_by!(email: "user@example.com").tap do |user|
+User.find_or_create_by(email: "admin@example.com").tap do |user|
   puts "  - setting up user with email: #{user.email}, password: 123456"
   user.name = "Admin"
   user.password = "123456"
   user.add_role(:admin) unless user.has_role?(:admin)
+
+  user.save!
 end
 
 puts "Default admin user created"
