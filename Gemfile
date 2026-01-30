@@ -37,9 +37,6 @@ gem "kamal", require: false
 # Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
 gem "thruster", require: false
 
-# The Essential Toolkit for building Internal Tools and admin panels with Ruby on Rails: https://github.com/avo-hq/avo
-gem "avo", ">= 3.2.3"
-
 # Object-based searching: https://github.com/activerecord-hackery/ransack
 gem "ransack"
 
