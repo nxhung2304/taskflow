@@ -29,6 +29,8 @@ class User < ApplicationRecord
 
   devise :database_authenticatable, :registerable, :validatable
 
+  has_many :boards, dependent: :destroy
+
   validates :name, presence: true
 
   def confirmed_at

@@ -25,6 +25,10 @@
 require "test_helper"
 
 class UserTest < ActiveSupport::TestCase
+  context "associations" do
+    should have_many(:boards).dependent(:destroy)
+  end
+
   context "validations" do
     should validate_presence_of(:name)
   end

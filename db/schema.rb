@@ -10,9 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_16_043605) do
+ActiveRecord::Schema[8.0].define(version: 2026_01_30_075201) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "boards", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "name", null: false
+    t.text "description"
+    t.integer "position", default: 0, null: false
+    t.datetime "archived_at"
+    t.boolean "visibility", default: true, null: false
+    t.string "color", limit: 9, default: "#CCCCCC", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_boards_on_user_id"
+  end
 
   create_table "roles", force: :cascade do |t|
     t.string "name"
@@ -59,4 +72,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_16_043605) do
     t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id"
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
+
+  add_foreign_key "boards", "users"
 end
