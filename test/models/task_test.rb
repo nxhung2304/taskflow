@@ -7,7 +7,7 @@
 #  description :text
 #  position    :integer          default(0), not null
 #  priority    :integer
-#  status      :integer          default(NULL), not null
+#  status      :integer          default("todo"), not null
 #  title       :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
@@ -33,6 +33,8 @@ class TaskTest < ActiveSupport::TestCase
   end
 
   context "associations" do
+    should have_many(:comments).dependent(:destroy)
+
     should belong_to(:assignee).class_name("User").optional
     should belong_to(:list)
   end

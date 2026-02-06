@@ -27,6 +27,7 @@ require "test_helper"
 class UserTest < ActiveSupport::TestCase
   context "associations" do
     should have_many(:boards).dependent(:destroy)
+    should have_many(:comments).dependent(:destroy)
   end
 
   context "validations" do

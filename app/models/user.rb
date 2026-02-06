@@ -34,6 +34,7 @@ class User < ApplicationRecord
          class_name: "Task",
          foreign_key: :assignee_id,
          dependent: :nullify
+  has_many :comments, dependent: :destroy
 
 
   validates :name, presence: true

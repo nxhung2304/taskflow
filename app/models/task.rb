@@ -7,7 +7,7 @@
 #  description :text
 #  position    :integer          default(0), not null
 #  priority    :integer
-#  status      :integer          default(NULL), not null
+#  status      :integer          default("todo"), not null
 #  title       :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
@@ -27,6 +27,7 @@
 
 class Task < ApplicationRecord
   # associations
+  has_many :comments, dependent: :destroy
   belongs_to :list
   belongs_to :assignee, class_name: "User", optional: true
 
