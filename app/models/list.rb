@@ -18,8 +18,11 @@
 #  fk_rails_...  (board_id => boards.id)
 #
 class List < ApplicationRecord
+  # associations
+  has_many :tasks, dependent: :destroy
   belongs_to :board
 
+  # validations
   validates :name, presence: true, length: { maximum: 255 }
   validates :position, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 end

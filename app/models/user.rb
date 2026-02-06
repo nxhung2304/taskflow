@@ -30,6 +30,11 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :validatable
 
   has_many :boards, dependent: :destroy
+  has_many :assigned_tasks,
+         class_name: "Task",
+         foreign_key: :assignee_id,
+         dependent: :nullify
+
 
   validates :name, presence: true
 

@@ -21,6 +21,7 @@ require "test_helper"
 
 class ListTest < ActiveSupport::TestCase
   context "associations" do
+    should have_many(:tasks).dependent(:destroy)
     should belong_to(:board)
   end
 

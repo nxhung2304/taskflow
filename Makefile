@@ -1,3 +1,4 @@
+# Setup for project
 setup-pre-commit:
 	@echo "🔧 Setting up pre-commit hooks..."
 
@@ -34,3 +35,7 @@ setup-pre-commit:
 
 setup: setup-pre-commit
 
+# Database
+db-reset:
+	rails db:migrate:reset
+	rails db:seed

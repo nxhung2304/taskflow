@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_06_032546) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_06_092735) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -47,13 +47,18 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_06_032546) do
   end
 
   create_table "tasks", force: :cascade do |t|
+    t.bigint "assignee_id"
+    t.bigint "list_id", null: false
     t.string "title", null: false
     t.text "description"
     t.integer "priority"
-    t.date "due_date"
-    t.integer "status"
+    t.datetime "deadline"
+    t.integer "status", default: 0, null: false
+    t.integer "position", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["assignee_id"], name: "index_tasks_on_assignee_id"
+    t.index ["list_id"], name: "index_tasks_on_list_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -84,4 +89,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_06_032546) do
 
   add_foreign_key "boards", "users"
   add_foreign_key "lists", "boards"
+  add_foreign_key "tasks", "lists"
+  add_foreign_key "tasks", "users", column: "assignee_id"
 end
