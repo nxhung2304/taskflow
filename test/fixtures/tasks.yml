@@ -3,25 +3,40 @@
 # Table name: tasks
 #
 #  id          :bigint           not null, primary key
+#  deadline    :datetime
 #  description :text
-#  due_date    :date
+#  position    :integer          default(0), not null
 #  priority    :integer
-#  status      :integer
+#  status      :integer          default(NULL), not null
 #  title       :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  assignee_id :bigint
+#  list_id     :bigint           not null
+#
+# Indexes
+#
+#  index_tasks_on_assignee_id  (assignee_id)
+#  index_tasks_on_list_id      (list_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (assignee_id => users.id)
+#  fk_rails_...  (list_id => lists.id)
 #
 
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  list: one
   title: TaskOne
   description: This is the first task.
   priority: 1
-  due_date: 2025-11-06
+  deadline: 2025-11-06
 
 two:
+  list: two
   title: TaskTwo
   description: This is the second task.
   priority: 1
-  due_date: 2025-11-06
+  deadline: 2025-11-06

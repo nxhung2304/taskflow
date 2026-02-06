@@ -3,13 +3,26 @@
 # Table name: tasks
 #
 #  id          :bigint           not null, primary key
+#  deadline    :datetime
 #  description :text
-#  due_date    :date
+#  position    :integer          default(0), not null
 #  priority    :integer
-#  status      :integer
+#  status      :integer          default(NULL), not null
 #  title       :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  assignee_id :bigint
+#  list_id     :bigint           not null
+#
+# Indexes
+#
+#  index_tasks_on_assignee_id  (assignee_id)
+#  index_tasks_on_list_id      (list_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (assignee_id => users.id)
+#  fk_rails_...  (list_id => lists.id)
 #
 
 require "test_helper"
@@ -19,38 +32,43 @@ class TaskTest < ActiveSupport::TestCase
     @task = tasks(:one)
   end
 
+  context "associations" do
+    should belong_to(:assignee).class_name("User").optional
+    should belong_to(:list)
+  end
+
   context "validations" do
     should validate_presence_of(:title)
 
-    should define_enum_for(:priority).with_values({ low: 1, medium: 2, high: 3 })
+    should define_enum_for(:priority).with_values({ low: 0, medium: 1, high: 2 })
 
-    should define_enum_for(:status).with_values({ pending: 1, in_progress: 2, completed: 3 })
+    should define_enum_for(:status).with_values({ todo: 0, in_progress: 1, completed: 2 })
   end
 
-  test "default status is pending" do
+  test "default status is todo" do
     task = Task.new(title: "New Task")
-    assert_equal "pending", task.status
+    assert_equal "todo", task.status
   end
 
-  test "should due_date can be nil" do
-    @task.due_date = nil
+  test "should deadline can be nil" do
+    @task.deadline = nil
     assert @task.valid?
   end
 
-  test "should due_date can be in past" do
-    @task.due_date = Date.yesterday
+  test "should deadline can be in past" do
+    @task.deadline = Date.yesterday
     assert_not @task.valid?
-    assert_includes @task.errors[:due_date], "must be greater than #{Date.today}"
+    assert_includes @task.errors[:deadline], "must be greater than #{Date.today}"
   end
 
-  test "should due_date cannot be today" do
-    @task.due_date = Date.today
+  test "should deadline cannot be today" do
+    @task.deadline = Date.today
     assert_not @task.valid?
-    assert_includes @task.errors[:due_date], "must be greater than #{Date.today}"
+    assert_includes @task.errors[:deadline], "must be greater than #{Date.today}"
   end
 
-  test "should due_date can be in future" do
-    @task.due_date = Date.tomorrow
+  test "should deadline can be in future" do
+    @task.deadline = Date.tomorrow
     assert @task.valid?
   end
 end

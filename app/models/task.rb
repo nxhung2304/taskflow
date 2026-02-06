@@ -3,31 +3,51 @@
 # Table name: tasks
 #
 #  id          :bigint           not null, primary key
+#  deadline    :datetime
 #  description :text
-#  due_date    :date
+#  position    :integer          default(0), not null
 #  priority    :integer
-#  status      :integer
+#  status      :integer          default(NULL), not null
 #  title       :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  assignee_id :bigint
+#  list_id     :bigint           not null
+#
+# Indexes
+#
+#  index_tasks_on_assignee_id  (assignee_id)
+#  index_tasks_on_list_id      (list_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (assignee_id => users.id)
+#  fk_rails_...  (list_id => lists.id)
 #
 
 class Task < ApplicationRecord
-  enum :status, { pending: 1, in_progress: 2, completed: 3 }
-  enum :priority, { low: 1, medium: 2, high: 3 }
+  # associations
+  belongs_to :list
+  belongs_to :assignee, class_name: "User", optional: true
 
+  # enums
+  enum :status, { todo: 0, in_progress: 1, completed: 2 }
+  enum :priority, { low: 0, medium: 1, high: 2 }
+
+  # validations
   validates :title, presence: true
-  validates :due_date, comparison: { greater_than: -> { Time.zone.today } }, if: -> { due_date.present? }
+  validates :deadline, comparison: { greater_than: -> { Time.zone.today } }, if: -> { deadline.present? }
 
+  # hooks
   after_initialize :set_default_status, if: :new_record?
 
+  # scopes
   scope :by_status, ->(status) { where(status: statuses[status]) }
   scope :by_priority, ->(priority) { where(priority: priorities[priority]) }
-  scope :by_due_date, ->(date) { where(due_date: date) }
 
   private
 
   def set_default_status
-    self.status ||= :pending
+    self.status ||= :todo
   end
 end

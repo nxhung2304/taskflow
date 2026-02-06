@@ -14,10 +14,14 @@ User.find_or_create_by(email: admin_email).tap do |user|
 end
 puts "Default admin user created"
 
-puts "-- Creating sample board for admin user"
+puts "-- Creating sample board"
 board = Board.find_or_create_by(name: "Sample Board", user: User.find_by(email: admin_email))
 puts "Sample board created"
 
-puts "-- Creating sample list for admin user"
-List.find_or_create_by(name: "Sample List", board: board)
+puts "-- Creating sample list"
+list = List.find_or_create_by(name: "Sample List", board: board)
+puts "Sample list created"
+
+puts "-- Creating sample task"
+Task.find_or_create_by(title: "Sample task", list: list)
 puts "Sample list created"
