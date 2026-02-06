@@ -4,7 +4,8 @@
 #
 puts "Creating default admin user"
 
-User.find_or_create_by(email: "admin@example.com").tap do |user|
+admin_email = "admin@example.com"
+User.find_or_create_by(email: admin_email).tap do |user|
   puts "  - setting up user with email: #{user.email}, password: 123456"
   user.name = "Admin"
   user.password = "123456"
@@ -14,3 +15,7 @@ User.find_or_create_by(email: "admin@example.com").tap do |user|
 end
 
 puts "Default admin user created"
+
+puts "Creating sample board for admin user"
+Board.find_or_create_by(name: "Sample Board", user: User.find_by(email: admin_email))
+puts "Sample board created"
