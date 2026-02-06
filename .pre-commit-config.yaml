@@ -6,6 +6,8 @@ repos:
         entry: bundle exec rubocop
         language: ruby
         types: [ruby]
+        exclude: ^db/schema\.rb$
+
       - id: rails-test
         name: Rails Test
         entry: bundle exec rails test

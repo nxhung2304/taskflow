@@ -22,8 +22,11 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Board < ApplicationRecord
+  # associations
+  has_many :lists, dependent: :destroy
   belongs_to :user
 
+  # validation
   validates :name, presence: true, uniqueness: { scope: :user_id }, length: { maximum: 255 }
   validates :description, length: { maximum: 1000 }, allow_blank: true
   validates :position, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
