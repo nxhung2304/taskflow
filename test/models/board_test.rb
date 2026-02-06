@@ -25,6 +25,7 @@ require "test_helper"
 
 class BoardTest < ActiveSupport::TestCase
   context "associations" do
+    should have_many(:lists).dependent(:destroy)
     should belong_to(:user)
   end
 
