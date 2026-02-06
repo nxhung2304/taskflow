@@ -7,7 +7,7 @@
 #  description :text
 #  position    :integer          default(0), not null
 #  priority    :integer
-#  status      :integer          default(NULL), not null
+#  status      :integer          default("todo"), not null
 #  title       :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
