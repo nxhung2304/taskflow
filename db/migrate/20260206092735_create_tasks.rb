@@ -10,6 +10,7 @@ class CreateTasks < ActiveRecord::Migration[8.0]
       t.datetime :deadline
       t.integer :status, null: false, default: 0
       t.integer :position, null: false, default: 0
+      t.integer :comments_count, null: false, default: 0
 
       t.timestamps
     end

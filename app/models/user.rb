@@ -36,7 +36,6 @@ class User < ApplicationRecord
          dependent: :nullify
   has_many :comments, dependent: :destroy
 
-
   validates :name, presence: true
 
   def confirmed_at

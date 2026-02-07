@@ -2,17 +2,18 @@
 #
 # Table name: tasks
 #
-#  id          :bigint           not null, primary key
-#  deadline    :datetime
-#  description :text
-#  position    :integer          default(0), not null
-#  priority    :integer
-#  status      :integer          default("todo"), not null
-#  title       :string           not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  assignee_id :bigint
-#  list_id     :bigint           not null
+#  id             :bigint           not null, primary key
+#  comments_count :integer          default(0), not null
+#  deadline       :datetime
+#  description    :text
+#  position       :integer          default(0), not null
+#  priority       :integer
+#  status         :integer          default("todo"), not null
+#  title          :string           not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  assignee_id    :bigint
+#  list_id        :bigint           not null
 #
 # Indexes
 #
@@ -28,7 +29,7 @@
 class Task < ApplicationRecord
   # associations
   has_many :comments, dependent: :destroy
-  belongs_to :list
+  belongs_to :list, counter_cache: true
   belongs_to :assignee, class_name: "User", optional: true
 
   # enums
@@ -36,8 +37,11 @@ class Task < ApplicationRecord
   enum :priority, { low: 0, medium: 1, high: 2 }
 
   # validations
-  validates :title, presence: true
+  validates :title, presence: true, length: { maximum: 255 }
   validates :deadline, comparison: { greater_than: -> { Time.zone.today } }, if: -> { deadline.present? }
+  validates :description, length: { maximum: 1000 }, allow_blank: true
+  validates :position, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :comments_count, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
   # hooks
   after_initialize :set_default_status, if: :new_record?

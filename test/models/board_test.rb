@@ -6,6 +6,7 @@
 #  archived_at :datetime
 #  color       :string(9)        default("#CCCCCC"), not null
 #  description :text
+#  lists_count :integer          default(0), not null
 #  name        :string           not null
 #  position    :integer          default(0), not null
 #  visibility  :boolean          default(TRUE), not null
@@ -56,5 +57,8 @@ class BoardTest < ActiveSupport::TestCase
     should allow_value(nil).for(:archived_at)
     should allow_value(Date.today + 1.day).for(:archived_at)
     should_not allow_value(Date.today - 1.day).for(:archived_at)
+
+    # lists_count
+    should validate_numericality_of(:lists_count).only_integer.is_greater_than_or_equal_to(0)
   end
 end

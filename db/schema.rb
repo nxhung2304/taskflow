@@ -22,6 +22,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_06_092736) do
     t.datetime "archived_at"
     t.boolean "visibility", default: true, null: false
     t.string "color", limit: 9, default: "#CCCCCC", null: false
+    t.integer "lists_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_boards_on_user_id"
@@ -41,6 +42,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_06_092736) do
     t.bigint "board_id", null: false
     t.string "name", null: false
     t.integer "position", default: 0, null: false
+    t.integer "tasks_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["board_id"], name: "index_lists_on_board_id"
@@ -65,6 +67,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_06_092736) do
     t.datetime "deadline"
     t.integer "status", default: 0, null: false
     t.integer "position", default: 0, null: false
+    t.integer "comments_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["assignee_id"], name: "index_tasks_on_assignee_id"
