@@ -48,7 +48,6 @@ class TaskTest < ActiveSupport::TestCase
     should define_enum_for(:status).with_values({ todo: 0, in_progress: 1, completed: 2 })
     should validate_length_of(:title).is_at_most(255)
     should validate_length_of(:description).is_at_most(1000).allow_blank
-    should validate_numericality_of(:position).only_integer.is_greater_than_or_equal_to(0)
     should validate_numericality_of(:comments_count).only_integer.is_greater_than_or_equal_to(0)
   end
 

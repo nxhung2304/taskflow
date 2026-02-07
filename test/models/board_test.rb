@@ -41,10 +41,6 @@ class BoardTest < ActiveSupport::TestCase
     should allow_value("").for(:description)
     should validate_length_of(:description).is_at_most(1000)
 
-    # position
-    should validate_presence_of(:position)
-    should validate_numericality_of(:position).only_integer.is_greater_than_or_equal_to(0)
-
     # color
     should validate_length_of(:color).is_at_most(9)
 

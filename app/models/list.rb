@@ -19,12 +19,16 @@
 #  fk_rails_...  (board_id => boards.id)
 #
 class List < ApplicationRecord
+  acts_as_list scope: :board
+
   # associations
   has_many :tasks, dependent: :destroy
   belongs_to :board, counter_cache: true
 
+  # scopes
+  scope :ordered, -> { order(position: :asc) }
+
   # validations
   validates :name, presence: true, length: { maximum: 255 }
-  validates :position, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :tasks_count, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 end

@@ -23,14 +23,18 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Board < ApplicationRecord
+  acts_as_list scope: :user
+
   # associations
   has_many :lists, dependent: :destroy
   belongs_to :user
 
+  # scopes
+  scope :ordered, -> { order(position: :asc) }
+
   # validation
   validates :name, presence: true, uniqueness: { scope: :user_id }, length: { maximum: 255 }
   validates :description, length: { maximum: 1000 }, allow_blank: true
-  validates :position, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :archived_at, comparison: { greater_than_or_equal_to: -> { Date.today } }, if: :archived_at?
   validates :color, length: { maximum: 9 }, format: { with: /\A#(?:[0-9a-fA-F]{3}){1,2}(?:[0-9a-fA-F]{2})?\z/ }
   validates :visibility, inclusion: { in: [ true, false ] }
