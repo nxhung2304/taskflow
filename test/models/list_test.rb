@@ -2,12 +2,13 @@
 #
 # Table name: lists
 #
-#  id         :bigint           not null, primary key
-#  name       :string           not null
-#  position   :integer          default(0), not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  board_id   :bigint           not null
+#  id          :bigint           not null, primary key
+#  name        :string           not null
+#  position    :integer          default(0), not null
+#  tasks_count :integer          default(0), not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  board_id    :bigint           not null
 #
 # Indexes
 #
@@ -33,5 +34,8 @@ class ListTest < ActiveSupport::TestCase
     # position
     should validate_presence_of(:position)
     should validate_numericality_of(:position).only_integer.is_greater_than_or_equal_to(0)
+
+    # tasks_count
+    should validate_numericality_of(:tasks_count).only_integer.is_greater_than_or_equal_to(0)
   end
 end

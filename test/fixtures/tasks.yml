@@ -2,17 +2,18 @@
 #
 # Table name: tasks
 #
-#  id          :bigint           not null, primary key
-#  deadline    :datetime
-#  description :text
-#  position    :integer          default(0), not null
-#  priority    :integer
-#  status      :integer          default("todo"), not null
-#  title       :string           not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  assignee_id :bigint
-#  list_id     :bigint           not null
+#  id             :bigint           not null, primary key
+#  comments_count :integer          default(0), not null
+#  deadline       :datetime
+#  description    :text
+#  position       :integer          default(0), not null
+#  priority       :integer
+#  status         :integer          default("todo"), not null
+#  title          :string           not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  assignee_id    :bigint
+#  list_id        :bigint           not null
 #
 # Indexes
 #

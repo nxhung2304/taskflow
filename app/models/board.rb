@@ -6,6 +6,7 @@
 #  archived_at :datetime
 #  color       :string(9)        default("#CCCCCC"), not null
 #  description :text
+#  lists_count :integer          default(0), not null
 #  name        :string           not null
 #  position    :integer          default(0), not null
 #  visibility  :boolean          default(TRUE), not null
@@ -33,4 +34,5 @@ class Board < ApplicationRecord
   validates :archived_at, comparison: { greater_than_or_equal_to: -> { Date.today } }, if: :archived_at?
   validates :color, length: { maximum: 9 }, format: { with: /\A#(?:[0-9a-fA-F]{3}){1,2}(?:[0-9a-fA-F]{2})?\z/ }
   validates :visibility, inclusion: { in: [ true, false ] }
+  validates :lists_count, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 end

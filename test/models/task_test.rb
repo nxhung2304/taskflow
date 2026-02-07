@@ -2,17 +2,18 @@
 #
 # Table name: tasks
 #
-#  id          :bigint           not null, primary key
-#  deadline    :datetime
-#  description :text
-#  position    :integer          default(0), not null
-#  priority    :integer
-#  status      :integer          default("todo"), not null
-#  title       :string           not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  assignee_id :bigint
-#  list_id     :bigint           not null
+#  id             :bigint           not null, primary key
+#  comments_count :integer          default(0), not null
+#  deadline       :datetime
+#  description    :text
+#  position       :integer          default(0), not null
+#  priority       :integer
+#  status         :integer          default("todo"), not null
+#  title          :string           not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  assignee_id    :bigint
+#  list_id        :bigint           not null
 #
 # Indexes
 #
@@ -45,6 +46,10 @@ class TaskTest < ActiveSupport::TestCase
     should define_enum_for(:priority).with_values({ low: 0, medium: 1, high: 2 })
 
     should define_enum_for(:status).with_values({ todo: 0, in_progress: 1, completed: 2 })
+    should validate_length_of(:title).is_at_most(255)
+    should validate_length_of(:description).is_at_most(1000).allow_blank
+    should validate_numericality_of(:position).only_integer.is_greater_than_or_equal_to(0)
+    should validate_numericality_of(:comments_count).only_integer.is_greater_than_or_equal_to(0)
   end
 
   test "default status is todo" do
