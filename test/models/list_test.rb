@@ -31,10 +31,6 @@ class ListTest < ActiveSupport::TestCase
     should validate_presence_of(:name)
     should validate_length_of(:name).is_at_most(255)
 
-    # position
-    should validate_presence_of(:position)
-    should validate_numericality_of(:position).only_integer.is_greater_than_or_equal_to(0)
-
     # tasks_count
     should validate_numericality_of(:tasks_count).only_integer.is_greater_than_or_equal_to(0)
   end

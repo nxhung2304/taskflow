@@ -27,10 +27,15 @@
 #
 
 class Task < ApplicationRecord
+  acts_as_list scope: :list
+
   # associations
   has_many :comments, dependent: :destroy
   belongs_to :list, counter_cache: true
   belongs_to :assignee, class_name: "User", optional: true
+
+  # scopes
+  scope :ordered, -> { order(position: :asc) }
 
   # enums
   enum :status, { todo: 0, in_progress: 1, completed: 2 }
@@ -40,7 +45,6 @@ class Task < ApplicationRecord
   validates :title, presence: true, length: { maximum: 255 }
   validates :deadline, comparison: { greater_than: -> { Time.zone.today } }, if: -> { deadline.present? }
   validates :description, length: { maximum: 1000 }, allow_blank: true
-  validates :position, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :comments_count, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
   # hooks
