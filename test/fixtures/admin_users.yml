@@ -6,38 +6,30 @@
 #
 # == Schema Information
 #
-# Table name: users
+# Table name: admin_users
 #
 #  id                     :bigint           not null, primary key
-#  allow_password_change  :boolean          default(FALSE)
-#  confirmation_sent_at   :datetime
-#  confirmation_token     :string
-#  confirmed_at           :datetime
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
-#  image                  :string
 #  name                   :string           not null
-#  provider               :string           default("email"), not null
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
-#  tokens                 :json
-#  uid                    :string           default(""), not null
-#  unconfirmed_email      :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
 # Indexes
 #
-#  index_users_on_email                 (email) UNIQUE
-#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_admin_users_on_email                 (email) UNIQUE
+#  index_admin_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 one:
-  name: "UserOne"
-  email: "user_one@example.com"
-  encrypted_password: "<hashed_password_here>"
+  name: Admin User One
+  email: "admin@example.com"
+  encrypted_password: <%= Devise::Encryptor.digest(AdminUser, 'password') %>
+
 
 two:
-  name: "UserTwo"
-  email: "user_two@example.com"
-  encrypted_password: "<hashed_password_here>"
+  name: Admin User Two
+  email: "admin2@example.com"
+  encrypted_password: <%= Devise::Encryptor.digest(AdminUser, 'password') %>

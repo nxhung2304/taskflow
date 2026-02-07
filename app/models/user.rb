@@ -4,6 +4,9 @@
 #
 #  id                     :bigint           not null, primary key
 #  allow_password_change  :boolean          default(FALSE)
+#  confirmation_sent_at   :datetime
+#  confirmation_token     :string
+#  confirmed_at           :datetime
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  image                  :string
@@ -14,6 +17,7 @@
 #  reset_password_token   :string
 #  tokens                 :json
 #  uid                    :string           default(""), not null
+#  unconfirmed_email      :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
@@ -37,10 +41,6 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
 
   validates :name, presence: true
-
-  def confirmed_at
-    DateTime.now
-  end
 
   def admin?
     has_role?(:admin)

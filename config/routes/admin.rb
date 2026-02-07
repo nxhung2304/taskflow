@@ -1,1 +1,1 @@
-devise_for :users
+devise_for :admin_users
