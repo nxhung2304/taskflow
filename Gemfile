@@ -48,6 +48,7 @@ gem "rolify"
 gem "devise_token_auth"
 gem "rack-cors"
 gem "cancancan"
+gem "acts_as_list"
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
