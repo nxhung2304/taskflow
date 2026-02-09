@@ -33,9 +33,32 @@ setup-pre-commit:
 	@pre-commit install
 	@echo "✅ pre-commit installed successfully!"
 
-setup: setup-pre-commit
+setup:
+	bundle install
+	yarn install
+	rails db:create
+	rails db:migrate
+	rails db:seed
+	$(MAKE) setup-pre-commit
 
 # Database
 db-reset:
 	rails db:migrate:reset
 	rails db:seed
+
+# Generation
+# 1. API
+g-api:
+	if [ -z "$(NAME)" ]; then \
+		echo "Error: NAME variable is not set. Please provide controller name(s)." >&2; \
+		exit 1; \
+	fi
+	rails generate controller Api::V1::$(NAME) index show create update destroy --no-helper --no-assets --no-view-specs
+
+d-api:
+	if [ -z "$(NAME)" ]; then \
+		echo "Error: NAME variable is not set. Please provide controller name(s)." >&2; \
+		exit 1; \
+	fi
+	rails destroy controller Api::V1::$(NAME) index show create update destroy --no-helper --no-assets --no-view-specs
+
