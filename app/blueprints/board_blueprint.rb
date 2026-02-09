@@ -1,8 +1,6 @@
-class BoardBlueprint < Blueprinter::Base
-  identifier :id
-
+class BoardBlueprint < ApplicationBlueprint
   view :default do
-    fields :name, :description, :archived_at, :color, :visibility, :position, :created_at, :updated_at
+    fields :name, :description, :archived_at, :color, :visibility, :position
   end
 
   view :with_user do
