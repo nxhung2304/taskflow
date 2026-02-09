@@ -3,12 +3,13 @@ module Api
     module Auth
       class SessionsController < DeviseTokenAuth::SessionsController
         skip_before_action :verify_authenticity_token
+        skip_before_action :authenticate_admin_user!
 
         protected
 
         def render_create_success
           render json: {
-            user: current_user.as_json(only: [ :id, :email, :name ]),
+            user: @resource.as_json(only: [ :id, :email, :name ]),
             success: true
           }, status: :ok
         end

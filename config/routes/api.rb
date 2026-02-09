@@ -7,5 +7,7 @@ namespace :api do
     resources :users,  only: [] do
       get "me", on: :collection, to: "users#me"
     end
+
+    resources :boards
   end
 end
