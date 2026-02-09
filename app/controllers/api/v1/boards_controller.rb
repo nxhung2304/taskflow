@@ -1,16 +1,12 @@
 class Api::V1::BoardsController < Api::V1::ApplicationController
+  include Paginatable
+
   before_action :set_board, only: %i[show update destroy]
 
   def index
-    @boards = current_api_v1_user.boards.ordered.page(params[:page]).per(params[:per_page])
+    boards = current_api_v1_user.boards.ordered
 
-    render json: BoardBlueprint.render(@boards,
-      root: :boards,
-      meta: {
-        current_page: @boards.current_page,
-        total_pages: @boards.total_pages,
-        total_count: @boards.total_count
-      })
+    render_paginated_collection(boards, BoardBlueprint, root: :boards)
   end
 
   def show
