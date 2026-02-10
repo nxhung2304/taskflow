@@ -4,7 +4,7 @@
 #
 #  id          :bigint           not null, primary key
 #  name        :string           not null
-#  position    :integer          default(0), not null
+#  position    :integer
 #  tasks_count :integer          default(0), not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null

@@ -8,7 +8,7 @@
 #  description :text
 #  lists_count :integer          default(0), not null
 #  name        :string           not null
-#  position    :integer          default(0), not null
+#  position    :integer
 #  visibility  :boolean          default(TRUE), not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null

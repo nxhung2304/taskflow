@@ -5,7 +5,7 @@ class CreateBoards < ActiveRecord::Migration[8.0]
 
       t.string :name, null: false
       t.text :description
-      t.integer :position, null: false, default: 0
+      t.integer :position
       t.datetime :archived_at, null: true
       t.boolean :visibility, null: false, default: true
       t.string :color, null: false, default: "#CCCCCC", limit: 9
