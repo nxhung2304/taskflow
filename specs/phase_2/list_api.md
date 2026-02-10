@@ -1,3 +1,7 @@
+## Status:
+- [x] implemented
+- [x] merged
+
 ## Description
 Implement CRUD API endpoints for Lists resource with position ordering support using `acts_as_list`.
 
@@ -60,7 +64,7 @@ Implement CRUD API endpoints for Lists resource with position ordering support u
 PATCH /api/v1/lists/:id/move
 
 // Request
-{ "list": "position": 1 }
+{ "list": { "position": 1 } }
 
 // Response 200
 {

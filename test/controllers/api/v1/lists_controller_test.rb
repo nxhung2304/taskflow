@@ -64,6 +64,21 @@ class Api::V1::ListsControllerTest < ActionDispatch::IntegrationTest
     assert_response :no_content
   end
 
+  test "should move list to new position" do
+    patch move_api_v1_list_url(@list_one), params: {
+      list: {
+        position: 2
+      }
+    }, headers: auth_headers_for(@user)
+    assert_response :success
+
+    @list_one.reload
+    list_one_b = lists(:one_b)
+
+    assert_equal 2, @list_one.position
+    assert_equal 1, list_one_b.position
+  end
+
   # Error cases
   test "should return 401 without auth headers" do
     get api_v1_board_lists_url(@board_one)
@@ -90,6 +105,51 @@ class Api::V1::ListsControllerTest < ActionDispatch::IntegrationTest
     other_list = lists(:two)
 
     get api_v1_list_url(other_list), headers: auth_headers_for(@user)
+    assert_response :forbidden
+  end
+
+  test "should return 400 for move without position" do
+    patch move_api_v1_list_url(@list_one), params: {
+      list: {}
+    }, headers: auth_headers_for(@user)
+    assert_response 400
+  end
+
+  test "should return 422 for move with position is 0" do
+    patch move_api_v1_list_url(@list_one), params: {
+      list: {
+        "position": 0
+      }
+    }, headers: auth_headers_for(@user)
+    assert_response :unprocessable_entity
+  end
+
+  test "should return 422 for move with position is -1" do
+    patch move_api_v1_list_url(@list_one), params: {
+      list: {
+        "position": -1
+      }
+    }, headers: auth_headers_for(@user)
+    assert_response :unprocessable_entity
+  end
+
+  test "should return 422 for move with position is alphabet" do
+    patch move_api_v1_list_url(@list_one), params: {
+      list: {
+        "position": "abc"
+      }
+    }, headers: auth_headers_for(@user)
+    assert_response :unprocessable_entity
+  end
+
+  test "should return 403 for move list in another user board" do
+    other_list = lists(:two)
+
+    patch move_api_v1_list_url(other_list), params: {
+      list: {
+        position: 1
+      }
+    }, headers: auth_headers_for(@user)
     assert_response :forbidden
   end
 end

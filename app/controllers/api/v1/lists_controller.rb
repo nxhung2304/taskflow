@@ -36,6 +36,7 @@ class Api::V1::ListsController < Api::V1::ApplicationController
     position_form = PositionForm.new(position: move_params[:position])
     if position_form.valid?
       @list.insert_at(position_form.position.to_i)
+      @list.reload
 
       render json: ListBlueprint.render(@list)
     else

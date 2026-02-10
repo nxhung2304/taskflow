@@ -22,7 +22,12 @@
 #
 one:
   name: List one
-  position: 0
+  position: 1
+  board: one
+
+one_b:
+  name: List one - B
+  position: 2
   board: one
 
 two:
