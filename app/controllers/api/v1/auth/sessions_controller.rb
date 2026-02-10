@@ -8,10 +8,10 @@ module Api
         protected
 
         def render_create_success
-        render json: {
-          user: UserBlueprint.render_as_hash(current_api_v1_user),
-          success: true
-        }, status: :ok
+          render json: {
+            user: UserBlueprint.render_as_hash(current_api_v1_user),
+            success: true
+          }, status: :ok
         end
 
         def render_create_error

@@ -4,18 +4,14 @@ class Api::V1::BoardsControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
 
   setup do
-    @user = users(:one)
-    @user.save!
-    @auth_headers = @user.create_new_auth_token
-    @user.reload
-
+    @user ||= users(:one)
     @board_one = boards(:one)
   end
 
   # CRUD
 
   test "should get index" do
-    get api_v1_boards_url, headers: @auth_headers
+    get api_v1_boards_url, headers: auth_headers_for(@user)
     assert_response :success
 
     actual = JSON.parse(response.body)["boards"]
@@ -25,7 +21,7 @@ class Api::V1::BoardsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get show" do
-    get api_v1_board_url(@board_one), headers: @auth_headers
+    get api_v1_board_url(@board_one), headers: auth_headers_for(@user)
     assert_response :success
 
     actual = JSON.parse(response.body)
@@ -45,7 +41,7 @@ class Api::V1::BoardsControllerTest < ActionDispatch::IntegrationTest
                color: "#FFFFFF"
              }
            },
-           headers: @auth_headers
+           headers: auth_headers_for(@user)
     end
     assert_response :success
   end
@@ -55,7 +51,7 @@ class Api::V1::BoardsControllerTest < ActionDispatch::IntegrationTest
 
     put api_v1_board_url(@board_one, params: {
       board: { name: update_name }
-    }), headers: @auth_headers
+    }), headers: auth_headers_for(@user)
     assert_response :success
 
     @board_one.reload
@@ -66,7 +62,7 @@ class Api::V1::BoardsControllerTest < ActionDispatch::IntegrationTest
 
   test "should destroy board" do
     assert_difference("@user.boards.count", -1) do
-      delete api_v1_board_url(@board_one), headers: @auth_headers
+      delete api_v1_board_url(@board_one), headers: auth_headers_for(@user)
     end
 
     assert_response :no_content
@@ -88,12 +84,12 @@ class Api::V1::BoardsControllerTest < ActionDispatch::IntegrationTest
              color: "#FFFFFF"
            }
          },
-         headers: @auth_headers
+         headers: auth_headers_for(@user)
     assert_response :unprocessable_entity
   end
 
   test "should return 404 for show with invalid id" do
-    get api_v1_board_url(id: "invalid"), headers: @auth_headers
+    get api_v1_board_url(id: "invalid"), headers: auth_headers_for(@user)
     assert_response :not_found
   end
 end

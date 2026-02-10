@@ -8,6 +8,10 @@ namespace :api do
       get "me", on: :collection, to: "users#me"
     end
 
-    resources :boards
+    resources :boards do
+      resources :lists, shallow: true do
+        member { patch :move }
+      end
+    end
   end
 end
