@@ -50,24 +50,21 @@ Implement CRUD API endpoints for Lists resource with position ordering support u
 
 // Response 201
 {
-"list": {
   "id": "uuid",
   "name": "In Progress",
   "position": 2,
   "board_id": "uuid",
   "created_at": "...",
-  "updated_at": "..."
-}
 }
 
 PATCH /api/v1/lists/:id/move
 
 // Request
-{ "position": 1 }
+{ "list": "position": 1 }
 
 // Response 200
 {
-"list": { "id": "uuid", "name": "In Progress", "position": 1, ... }
+  { "id": "uuid", "name": "In Progress", "position": 1, ... }
 }
 
 Technical Notes

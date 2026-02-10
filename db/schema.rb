@@ -31,7 +31,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_07_073005) do
     t.bigint "user_id", null: false
     t.string "name", null: false
     t.text "description"
-    t.integer "position", default: 0, null: false
+    t.integer "position"
     t.datetime "archived_at"
     t.boolean "visibility", default: true, null: false
     t.string "color", limit: 9, default: "#CCCCCC", null: false
@@ -54,7 +54,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_07_073005) do
   create_table "lists", force: :cascade do |t|
     t.bigint "board_id", null: false
     t.string "name", null: false
-    t.integer "position", default: 0, null: false
+    t.integer "position"
     t.integer "tasks_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -79,7 +79,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_07_073005) do
     t.integer "priority"
     t.datetime "deadline"
     t.integer "status", default: 0, null: false
-    t.integer "position", default: 0, null: false
+    t.integer "position"
     t.integer "comments_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

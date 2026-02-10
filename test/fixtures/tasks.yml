@@ -6,7 +6,7 @@
 #  comments_count :integer          default(0), not null
 #  deadline       :datetime
 #  description    :text
-#  position       :integer          default(0), not null
+#  position       :integer
 #  priority       :integer
 #  status         :integer          default("todo"), not null
 #  title          :string           not null
