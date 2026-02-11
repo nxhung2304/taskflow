@@ -32,12 +32,25 @@ one:
   list: one
   title: TaskOne
   description: This is the first task.
+  status: 0
   priority: 1
-  deadline: 2025-11-06
+  position: 1
+  deadline: 2026-11-06
+
+one_b:
+  list: one
+  title: TaskOneB
+  description: This is the second task in list one.
+  status: 1
+  priority: 2
+  position: 2
+  deadline: 2026-12-06
 
 two:
   list: two
   title: TaskTwo
   description: This is the second task.
+  status: 0
   priority: 1
-  deadline: 2025-11-06
+  position: 1
+  deadline: 2026-11-06

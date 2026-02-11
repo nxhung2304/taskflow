@@ -23,14 +23,13 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Board < ApplicationRecord
+  include Orderable
+
   acts_as_list scope: :user
 
   # associations
   has_many :lists, dependent: :destroy
   belongs_to :user
-
-  # scopes
-  scope :ordered, -> { order(position: :asc) }
 
   # validation
   validates :name, presence: true, uniqueness: { scope: :user_id }, length: { maximum: 255 }

@@ -11,6 +11,10 @@ namespace :api do
     resources :boards do
       resources :lists, shallow: true do
         member { patch :move }
+
+        resources :tasks, shallow: true do
+          member { patch :move }
+        end
       end
     end
   end

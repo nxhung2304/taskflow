@@ -8,5 +8,6 @@ class Ability
 
     can :manage, Board, user_id: user.id
     can :manage, List, board: { user_id: user.id }
+    can :manage, Task, list: { board: { user_id: user.id } }
   end
 end
