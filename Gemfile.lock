@@ -441,6 +441,7 @@ DEPENDENCIES
   rails (~> 8.0.3)
   ransack
   rolify
+  rubocop-rails
   rubocop-rails-omakase
   selenium-webdriver
   shoulda (~> 4.0)

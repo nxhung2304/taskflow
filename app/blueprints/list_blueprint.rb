@@ -6,7 +6,6 @@ class ListBlueprint < ApplicationBlueprint
   view :with_tasks do
     include_view :default
 
-    # TODO: Uncomment when TaskBlueprint is implemented
-    # association :task, blueprint: TaskBlueprint, view: :default
+    association :task, blueprint: TaskBlueprint, view: :default
   end
 end

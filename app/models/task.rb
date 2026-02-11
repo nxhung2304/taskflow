@@ -27,6 +27,8 @@
 #
 
 class Task < ApplicationRecord
+  include Orderable
+
   acts_as_list scope: :list
 
   # associations
@@ -35,7 +37,9 @@ class Task < ApplicationRecord
   belongs_to :assignee, class_name: "User", optional: true
 
   # scopes
-  scope :ordered, -> { order(position: :asc) }
+  scope :with_status, ->(status) { where(status: status) }
+  scope :with_priority, ->(priority) { where(priority: priority) }
+  scope :with_assignee_id, ->(assignee_id) { where(assignee_id: assignee_id) }
 
   # enums
   enum :status, { todo: 0, in_progress: 1, completed: 2 }
@@ -47,16 +51,21 @@ class Task < ApplicationRecord
   validates :description, length: { maximum: 1000 }, allow_blank: true
   validates :comments_count, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
+  # custom validation
+  validate :assignee_must_exist, if: -> { assignee_id.present? }
+
   # hooks
   after_initialize :set_default_status, if: :new_record?
 
-  # scopes
-  scope :by_status, ->(status) { where(status: statuses[status]) }
-  scope :by_priority, ->(priority) { where(priority: priorities[priority]) }
-
   private
 
-  def set_default_status
-    self.status ||= :todo
-  end
+    def set_default_status
+      self.status ||= :todo
+    end
+
+    def assignee_must_exist
+      return if User.exists?(assignee_id)
+
+      errors.add(:assignee_id, "must refer to an existing user")
+    end
 end
