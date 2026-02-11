@@ -140,6 +140,100 @@ class Api::V1::TasksControllerTest < ActionDispatch::IntegrationTest
     assert_equal 1, @task_one_b.position
   end
 
+  # === FILTERING ===
+
+  test "should filter tasks by status" do
+    get api_v1_list_tasks_url(@list_one),
+        params: { status: "todo" },
+        headers: auth_headers_for(@user)
+    assert_response :success
+
+    tasks = JSON.parse(response.body)["tasks"]
+
+    assert_equal 1, tasks.length
+    assert tasks.all? { |t| t["status"] == "todo" }
+  end
+
+  test "should filter tasks by priority" do
+    get api_v1_list_tasks_url(@list_one),
+        params: { priority: "high" },
+        headers: auth_headers_for(@user)
+    assert_response :success
+
+    tasks = JSON.parse(response.body)["tasks"]
+
+    assert_equal 1, tasks.length
+    assert tasks.all? { |t| t["priority"] == "high" }
+  end
+
+  test "should filter tasks by assignee_id" do
+    @task_one.update_column(:assignee_id, @user.id)
+
+    get api_v1_list_tasks_url(@list_one),
+        params: { assignee_id: @user.id },
+        headers: auth_headers_for(@user)
+    assert_response :success
+
+    tasks = JSON.parse(response.body)["tasks"]
+
+    assert_equal 1, tasks.length
+    assert tasks.all? { |t| t["assignee_id"] == @user.id }
+  end
+
+  test "should return all tasks when filter value is invalid" do
+    get api_v1_list_tasks_url(@list_one),
+        params: { status: "banana" },
+        headers: auth_headers_for(@user)
+    assert_response :success
+
+    tasks = JSON.parse(response.body)["tasks"]
+
+    assert_equal @list_one.tasks.count, tasks.length
+  end
+
+  test "should combine multiple filters" do
+    get api_v1_list_tasks_url(@list_one),
+        params: { status: "todo", priority: "medium" },
+        headers: auth_headers_for(@user)
+    assert_response :success
+
+    tasks = JSON.parse(response.body)["tasks"]
+
+    assert_equal 1, tasks.length
+    assert_equal "todo", tasks.first["status"]
+    assert_equal "medium", tasks.first["priority"]
+  end
+
+  # === VALIDATION EDGE CASES ===
+
+  test "should return 422 for create with invalid assignee_id" do
+    post api_v1_list_tasks_url(@list_one),
+         params: { task: { title: "Bad Assignee", assignee_id: 0 } },
+         headers: auth_headers_for(@user)
+    assert_response :unprocessable_entity
+  end
+
+  test "should return 422 for create with past deadline" do
+    post api_v1_list_tasks_url(@list_one),
+         params: { task: { title: "Past Deadline", deadline: 1.day.ago.to_date.to_s } },
+         headers: auth_headers_for(@user)
+    assert_response :unprocessable_entity
+  end
+
+  test "should return 422 for update with invalid status" do
+    patch api_v1_task_url(@task_one),
+          params: { task: { status: "banana" } },
+          headers: auth_headers_for(@user)
+    assert_response :unprocessable_entity
+  end
+
+  test "should return 422 for update with invalid priority" do
+    patch api_v1_task_url(@task_one),
+          params: { task: { priority: "banana" } },
+          headers: auth_headers_for(@user)
+    assert_response :unprocessable_entity
+  end
+
   # === ERROR CASES ===
 
   test "should return 401 without auth headers" do

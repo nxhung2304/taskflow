@@ -5,15 +5,17 @@ module Filterable
     return collection if filters.blank?
 
     filters.each do |key, value|
-      begin
-        klass = controller_name.classify.constantize
+      method_name  = "with_#{key}"
+      klass = controller_name.classify.constantize
 
-        next unless klass.respond_to?("with_#{key}")
+      next unless value.present?
+      next unless klass.respond_to?(method_name)
 
-        collection = collection.public_send("with_#{key}", value) if value.present?
-      rescue ArgumentError
-        next
+      if klass.defined_enums.key?(key)
+        next unless klass.defined_enums[key].key?(value)
       end
+
+      collection = collection.public_send(method_name, value)
     end
 
     collection

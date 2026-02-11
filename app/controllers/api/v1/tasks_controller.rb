@@ -1,10 +1,10 @@
 class Api::V1::TasksController < Api::V1::ApplicationController
+  load_and_authorize_resource :list, only: %i[index create]
+  load_and_authorize_resource :task, only: %i[show update destroy move]
+
   include Paginatable
   include Moveable
   include Filterable
-
-  load_and_authorize_resource :list, only: %i[index create]
-  load_and_authorize_resource :task, only: %i[show update destroy move]
 
   def index
     tasks = collection_filter_by(@list.tasks.ordered, params.slice(:status, :priority, :assignee_id))
@@ -43,7 +43,6 @@ class Api::V1::TasksController < Api::V1::ApplicationController
         :priority,
         :deadline,
         :status,
-        :position,
         :assignee_id
       )
     end

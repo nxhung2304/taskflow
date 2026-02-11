@@ -1,9 +1,9 @@
 class Api::V1::ListsController < Api::V1::ApplicationController
-  include Paginatable
-  include Moveable
-
   load_and_authorize_resource :board, only: %i[index create]
   load_and_authorize_resource :list, only: %i[show update destroy move]
+
+  include Paginatable
+  include Moveable
 
   def index
     lists = @board.lists.ordered

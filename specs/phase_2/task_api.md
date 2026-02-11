@@ -1,6 +1,5 @@
 ## Status:
-- [ ] implemented
-- [ ] merged
+- [x] Merged
 
 ## Description
 Implement CRUD API endpoints for Tasks resource with status management, assignee assignment, deadline filtering, and position ordering using `acts_as_list`.
