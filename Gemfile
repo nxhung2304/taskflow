@@ -76,4 +76,5 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "shoulda", "~> 4.0"
+  gem "simplecov", require: false
 end
