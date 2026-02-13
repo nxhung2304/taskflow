@@ -14,6 +14,8 @@ namespace :api do
 
         resources :tasks, shallow: true do
           member { patch :move }
+
+          resources :comments, shallow: true
         end
       end
     end
