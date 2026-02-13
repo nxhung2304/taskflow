@@ -6,7 +6,6 @@ class TaskBlueprint < ApplicationBlueprint
   view :with_comments do
     include_view :default
 
-    # TODO: Uncomment when CommentBlueprint is implemented
-    # association :comments, blueprint: CommentBlueprint, view: :default
+    association :comments, blueprint: CommentBlueprint
   end
 end

@@ -1,6 +1,5 @@
 ## Status:
-- [ ] implemented
-- [ ] merged
+- [x] merged
 
 ## Description
 Implement CRUD API endpoints for Comments resource. Comments are associated with Tasks and tracked by User (author). Ordered by `created_at` (ascending).
@@ -40,7 +39,7 @@ Implement CRUD API endpoints for Comments resource. Comments are associated with
 ### Serialization
 - [ ] Create `CommentBlueprint` with views:
   - `:default` - id, content, task_id, user_id, timestamps
-  - `:with_user` - includes nested user (author) info
+  - `:with_author` - includes nested user (author) info
 - [ ] Uncomment `CommentBlueprint` association in `TaskBlueprint#with_comments` view
 
 ## Request/Response Examples

@@ -15,9 +15,9 @@ class Api::V1::CommentsController < Api::V1::ApplicationController
   end
 
   def create
-    task = @task.comments.create!(comment_params.merge(user: current_api_v1_user))
+    comment = @task.comments.create!(comment_params.merge(user: current_api_v1_user))
 
-    render json: CommentBlueprint.render(task), status: :created
+    render json: CommentBlueprint.render(comment), status: :created
   end
 
   def update
