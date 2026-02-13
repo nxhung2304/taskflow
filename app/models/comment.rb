@@ -24,4 +24,6 @@ class Comment < ApplicationRecord
   belongs_to :user
 
   validates :content, presence: true, length: { maximum: 500 }
+
+  scope :ordered, -> { order(created_at: :asc) }
 end
