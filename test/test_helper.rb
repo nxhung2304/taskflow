@@ -1,7 +1,15 @@
+require "simplecov"
+
+SimpleCov.start "rails" do
+  minimum_coverage 80
+end
+
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
 require_relative "./support/api_auth_test_helper.rb"
+
+# Previous content of test helper now starts here
 
 module ActiveSupport
   class TestCase
@@ -9,6 +17,14 @@ module ActiveSupport
 
     # Run tests in parallel with specified workers
     parallelize(workers: :number_of_processors)
+
+    parallelize_setup do |worker|
+      SimpleCov.command_name "#{SimpleCov.command_name}-#{worker}"
+    end
+
+    parallelize_teardown do |_|
+      SimpleCov.result
+    end
 
     # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
     fixtures :all
