@@ -49,25 +49,26 @@ A Trello-like task management application with Rails API backend and Flutter mob
 
 ### Phase 2: API
 
-- [ ] **Board API** - [#85](https://github.com/nxhung2304/taskflow/issues/85)
+- [x] **Board API** - [#85](https://github.com/nxhung2304/taskflow/issues/85)
   - Full CRUD `/api/v1/boards` with authorization
   - Tools: Controller, Blueprinter serializer, CanCanCan integration
 
-- [ ] **List API** - [#86](https://github.com/nxhung2304/taskflow/issues/86)
+- [x] **List API** - [#86](https://github.com/nxhung2304/taskflow/issues/86)
   - Position ordering with `acts_as_list`
   - Route: Nested `/api/v1/boards/:board_id/lists`
 
-- [ ] **Task API** - [#88](https://github.com/nxhung2304/taskflow/issues/88)
+- [x] **Task API** - [#88](https://github.com/nxhung2304/taskflow/issues/88)
   - Status management, assignee, deadline filtering
   - Route: Nested `/api/v1/lists/:list_id/tasks`
 
-- [ ] **Comment API** - [#87](https://github.com/nxhung2304/taskflow/issues/87)
+- [x] **Comment API** - [#87](https://github.com/nxhung2304/taskflow/issues/87)
   - Route: Nested `/api/v1/tasks/:task_id/comments`
 
-- [ ] **Pagination, Error Handling, Docs** - [#89](https://github.com/nxhung2304/taskflow/issues/89)
-  - Pagination (Kaminari)
-  - Error handling middleware
-  - API documentation (rswag)
+- [ ] ** Docs for API** - [#48](https://github.com/nxhung2304/taskflow/issues/48)
+  - [ ] API documentation ( Rswag )
+
+- [ ]**Use Rspec instead of Mini Test**
+- 
 
 ---
 

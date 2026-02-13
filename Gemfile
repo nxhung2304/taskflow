@@ -49,6 +49,8 @@ gem "cancancan"
 gem "acts_as_list"
 gem "blueprinter"
 gem "kaminari"
+gem "rswag-api"
+gem "rswag-ui"
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
@@ -63,6 +65,10 @@ group :development, :test do
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
   gem "rubocop-rails", require: false
+
+  gem "rspec-rails"
+  gem "rswag-specs"
+  gem "factory_bot_rails"
 end
 
 group :development do
