@@ -1,6 +1,7 @@
 class Admin::BoardsController < Admin::ApplicationController
   layout "admin"
   before_action :set_board, only: %i[show edit update destroy]
+  before_action :set_users, only: %i[new create edit update]
 
   def index
     @users = User.all
@@ -16,36 +17,32 @@ class Admin::BoardsController < Admin::ApplicationController
 
   def new
     @board = Board.new
-    @users = User.pluck(:name, :id)
   end
 
   def create
     @board = Board.new(board_params)
 
     if @board.save
-      redirect_to admin_board_path(@board), notice: "Board was successfully created."
+      redirect_to admin_boards_path, notice: t("admin.boards.messages.created")
     else
-      @users = User.pluck(:name, :id)
       render :new, status: :unprocessable_entity
     end
   end
 
   def edit
-    @users = User.pluck(:name, :id)
   end
 
   def update
     if @board.update(board_params)
-      redirect_to admin_board_path(@board), notice: "Board was successfully updated."
+      redirect_to admin_boards_path, notice: t("admin.boards.messages.updated")
     else
-      @users = User.pluck(:name, :id)
       render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
     @board.destroy!
-    redirect_to admin_boards_path, notice: "Board was successfully destroyed."
+    redirect_to admin_boards_path, notice: t("admin.boards.messages.destroyed")
   end
 
   private
@@ -56,5 +53,9 @@ class Admin::BoardsController < Admin::ApplicationController
 
   def set_board
     @board = Board.find(params[:id])
+  end
+
+  def set_users
+    @users = User.pluck(:name, :id)
   end
 end

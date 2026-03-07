@@ -139,35 +139,32 @@
       </header>
 
       <div class="admin-content">
-        <% if notice %>
-          <div class="alert alert-success">
-            <span class="alert-icon">✓</span>
-            <%= notice %>
-            <button type="button" class="alert-close">&times;</button>
-          </div>
-        <% end %>
-
-        <% if alert %>
-          <div class="alert alert-danger">
-            <span class="alert-icon">!</span>
-            <%= alert %>
-            <button type="button" class="alert-close">&times;</button>
-          </div>
-        <% end %>
-
         <%= yield %>
       </div>
     </main>
 
+    <!-- Toast Container -->
+    <div class="toast-container">
+      <% if notice %>
+        <div class="toast toast-success" data-controller="toast" data-toast-auto-dismiss-value="true" data-toast-duration-value="3000">
+          <span class="toast-icon">✓</span>
+          <span><%= notice %></span>
+          <button type="button" class="toast-close" data-action="click->toast#close">&times;</button>
+        </div>
+      <% end %>
+
+      <% if alert %>
+        <div class="toast toast-danger" data-controller="toast" data-toast-auto-dismiss-value="true" data-toast-duration-value="3000">
+          <span class="toast-icon">!</span>
+          <span><%= alert %></span>
+          <button type="button" class="toast-close" data-action="click->toast#close">&times;</button>
+        </div>
+      <% end %>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
     <script>
       function initializeAdmin() {
-        // Alert close buttons
-        document.querySelectorAll('.alert-close').forEach(btn => {
-          btn.removeEventListener('click', handleAlertClose);
-          btn.addEventListener('click', handleAlertClose);
-        });
-
         // Sidebar toggle
         const sidebarToggle = document.getElementById('sidebarToggle');
         if (sidebarToggle) {
@@ -180,15 +177,10 @@
           document.body.classList.add('sidebar-collapsed');
         }
 
-
         // Initialize feather icons
         if (typeof feather !== 'undefined') {
           feather.replace();
         }
-      }
-
-      function handleAlertClose() {
-        this.parentElement.style.display = 'none';
       }
 
       function handleSidebarToggle() {

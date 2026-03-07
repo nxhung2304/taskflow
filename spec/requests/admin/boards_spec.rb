@@ -14,6 +14,76 @@ RSpec.describe "Admin::Boards", type: :request do
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Boards")
     end
+
+    context "with search by name" do
+      let(:user1) { create(:user) }
+      let(:user2) { create(:user) }
+
+      before do
+        create(:board, name: "Project Alpha", user: user1)
+        create(:board, name: "Project Beta", user: user2)
+        create(:board, name: "Client Gamma", user: user1)
+      end
+
+      it "filters boards by name" do
+        get admin_boards_path(search: "Project")
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("Project Alpha")
+        expect(response.body).to include("Project Beta")
+        expect(response.body).not_to include("Client Gamma")
+      end
+
+      it "filters boards by name (case insensitive)" do
+        get admin_boards_path(search: "project")
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("Project Alpha")
+        expect(response.body).to include("Project Beta")
+      end
+
+      it "returns empty results when no boards match" do
+        get admin_boards_path(search: "NonExistent")
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("No Boards Found")
+      end
+    end
+
+    context "with filter by user" do
+      let(:user1) { create(:user) }
+      let(:user2) { create(:user) }
+
+      before do
+        create(:board, name: "Board 1", user: user1)
+        create(:board, name: "Board 2", user: user1)
+        create(:board, name: "Board 3", user: user2)
+      end
+
+      it "filters boards by user" do
+        get admin_boards_path(user_id: user1.id)
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("Board 1")
+        expect(response.body).to include("Board 2")
+        expect(response.body).not_to include("Board 3")
+      end
+    end
+
+    context "with combined search and filter" do
+      let(:user1) { create(:user) }
+      let(:user2) { create(:user) }
+
+      before do
+        create(:board, name: "Project Alpha", user: user1)
+        create(:board, name: "Project Beta", user: user2)
+        create(:board, name: "Client Alpha", user: user1)
+      end
+
+      it "applies both search and filter together" do
+        get admin_boards_path(search: "Project", user_id: user1.id)
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("Project Alpha")
+        expect(response.body).not_to include("Project Beta")
+        expect(response.body).not_to include("Client Alpha")
+      end
+    end
   end
 
   describe "GET /admin/boards/new" do
@@ -39,12 +109,12 @@ RSpec.describe "Admin::Boards", type: :request do
         }
       end
 
-      it "creates a board and redirects to show" do
+      it "creates a board and redirects to index" do
         expect {
           post admin_boards_path, params: valid_params
         }.to change(Board, :count).by(1)
 
-        expect(response).to redirect_to(admin_board_path(Board.last))
+        expect(response).to redirect_to(admin_boards_path)
         follow_redirect!
         expect(response.body).to include("Board was successfully created.")
       end
@@ -99,9 +169,9 @@ RSpec.describe "Admin::Boards", type: :request do
         }
       end
 
-      it "updates the board and redirects to show" do
+      it "updates the board and redirects to index" do
         patch admin_board_path(board), params: update_params
-        expect(response).to redirect_to(admin_board_path(board))
+        expect(response).to redirect_to(admin_boards_path)
 
         board.reload
         expect(board.name).to eq("Updated Board Name")

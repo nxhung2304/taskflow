@@ -49,6 +49,11 @@ en:
       total_tasks: Total Tasks
       view_all: View All
     boards:
+      messages:
+        created: Board was successfully created.
+        updated: Board was successfully updated.
+        destroyed: Board was successfully destroyed.
+      confirm_delete: "Are you sure you want to delete this board? This action cannot be undone."
       index:
         title: Boards Management
         add_new: Add New Board
@@ -85,8 +90,10 @@ en:
         title: Edit Board
       form:
         name: Board Name
+        name_required: "Board Name *"
         description: Description
         owner: Owner
+        owner_required: "Owner *"
         color: Board Color
         visibility: Visibility
         visibility_public: Public (visible to all)
@@ -99,3 +106,5 @@ en:
         color_help: Choose a color for your board
         archive_help: Leave empty to keep the board active
         owner_help: Who will own this board?
+        unique_name: A unique name to identify this board
+        select_user: Select a user

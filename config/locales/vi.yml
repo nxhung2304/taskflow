@@ -20,6 +20,11 @@ vi:
       total_tasks: Tổng số nhiệm vụ
       view_all: Xem tất cả
     boards:
+      messages:
+        created: Bảng đã được tạo thành công.
+        updated: Bảng đã được cập nhật thành công.
+        destroyed: Bảng đã được xóa thành công.
+      confirm_delete: "Bạn có chắc chắn muốn xóa bảng này không? Hành động này không thể hoàn tác."
       index:
         title: Quản lý bảng
         add_new: Thêm bảng mới
@@ -56,8 +61,10 @@ vi:
         title: Chỉnh sửa bảng
       form:
         name: Tên bảng
+        name_required: "Tên bảng *"
         description: Mô tả
         owner: Chủ sở hữu
+        owner_required: "Chủ sở hữu *"
         color: Màu bảng
         visibility: Mức độ hiển thị
         visibility_public: Công khai (hiển thị cho tất cả)
@@ -70,3 +77,5 @@ vi:
         color_help: Chọn một màu cho bảng của bạn
         archive_help: Để trống để giữ bảng hoạt động
         owner_help: Ai sẽ sở hữu bảng này?
+        unique_name: Một tên duy nhất để xác định bảng này
+        select_user: Chọn một người dùng

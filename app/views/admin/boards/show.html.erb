@@ -10,7 +10,7 @@
 
 <% content_for :header_actions do %>
   <%= link_to t('admin.boards.show.edit'), edit_admin_board_path(@board), class: "btn btn-warning" %>
-  <%= link_to t('admin.boards.show.delete'), admin_board_path(@board), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger" %>
+  <%= button_to t('admin.boards.show.delete'), admin_board_path(@board), method: :delete, data: { turbo_confirm: t('admin.boards.confirm_delete', default: "Are you sure?") }, class: "btn btn-danger", form_class: "d-inline" %>
 <% end %>
 
 <div class="admin-container">

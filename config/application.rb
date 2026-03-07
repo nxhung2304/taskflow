@@ -21,9 +21,9 @@ module Taskflow
     config.active_record.marshalling_format_version = 7.1
 
     # Internationalization configuration
-    config.i18n.available_locales = [:en, :vi]
+    config.i18n.available_locales = [ :en, :vi ]
     config.i18n.default_locale = :en
-    config.i18n.fallbacks = [:en]
+    config.i18n.fallbacks = [ :en ]
 
     # Configuration for the application, engines, and railties goes here.
     #

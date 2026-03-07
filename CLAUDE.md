@@ -150,3 +150,9 @@ end
 2. **Shallow Nesting**: API routes use shallow nesting for cleaner URLs
 3. **acts_as_list**: Used for position ordering in Lists and Tasks
 4. **Role-based Access**: Admin has full access, Member has scoped access
+
+## Code rules
+- Use stimulus if canable
+- Thin Controller, Fat model
+- Prevent magic number, use naming variable
+- ALways use clean code
