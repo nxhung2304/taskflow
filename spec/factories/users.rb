@@ -5,5 +5,6 @@ FactoryBot.define do
     password { "password123" }
     provider { "email" }
     uid { email }
+    confirmed_at { Time.current }
   end
 end
