@@ -64,18 +64,16 @@ A Trello-like task management application with Rails API backend and Flutter mob
 - [x] **Comment API** - [#87](https://github.com/nxhung2304/taskflow/issues/87)
   - Route: Nested `/api/v1/tasks/:task_id/comments`
 
-- [ ] ** Docs for API** - [#48](https://github.com/nxhung2304/taskflow/issues/48)
+- [x] ** Docs for API** - [#48](https://github.com/nxhung2304/taskflow/issues/48)
   - [ ] API documentation ( Rswag )
-
-- [ ]**Use Rspec instead of Mini Test**
-- 
+- [x] **Use Rspec instead of Mini Test** 
 
 ---
 
 ### Phase 3: Admin Side
 
 **CRUD Operations**
-- [ ] Boards controller (CRUD + ownership) - [#43](https://github.com/nxhung2304/taskflow/issues/43)
+- [x] Boards controller (CRUD + ownership) - [#43](https://github.com/nxhung2304/taskflow/issues/43)
 - [ ] Lists controller (with position ordering) - [#44](https://github.com/nxhung2304/taskflow/issues/44)
 - [ ] Tasks controller (with status management) - [#45](https://github.com/nxhung2304/taskflow/issues/45)
 - [ ] Comments controller - [#46](https://github.com/nxhung2304/taskflow/issues/46)
@@ -152,3 +150,9 @@ end
 2. **Shallow Nesting**: API routes use shallow nesting for cleaner URLs
 3. **acts_as_list**: Used for position ordering in Lists and Tasks
 4. **Role-based Access**: Admin has full access, Member has scoped access
+
+## Code rules
+- Use stimulus if canable
+- Thin Controller, Fat model
+- Prevent magic number, use naming variable
+- ALways use clean code

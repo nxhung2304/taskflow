@@ -1,0 +1,102 @@
+<% content_for :page_title do %>
+  <%= @board.name %>
+<% end %>
+
+<% content_for :breadcrumb do %>
+  <%= link_to t('admin.sidebar.dashboard'), admin_root_path %> <span>></span>
+  <%= link_to t('admin.sidebar.boards'), admin_boards_path %> <span>></span>
+  <strong><%= @board.name %></strong>
+<% end %>
+
+<% content_for :header_actions do %>
+  <%= link_to t('admin.boards.show.edit'), edit_admin_board_path(@board), class: "btn btn-warning" %>
+  <%= button_to t('admin.boards.show.delete'), admin_board_path(@board), method: :delete, data: { turbo_confirm: t('admin.boards.confirm_delete', default: "Are you sure?") }, class: "btn btn-danger", form_class: "d-inline" %>
+<% end %>
+
+<div class="admin-container">
+  <div class="board-details">
+    <div class="detail-row">
+      <strong><%= t('admin.boards.show.owner') %></strong>
+      <span><%= @board.user.name %></span>
+    </div>
+
+    <div class="detail-row">
+      <strong><%= t('admin.boards.form.description') %></strong>
+      <span><%= simple_format(@board.description) || "—" %></span>
+    </div>
+
+    <div class="detail-row">
+      <strong><%= t('admin.boards.show.color') %></strong>
+      <span>
+        <span class="color-preview" style="background-color: <%= @board.color %>;"></span>
+        <%= @board.color %>
+      </span>
+    </div>
+
+    <div class="detail-row">
+      <strong><%= t('admin.boards.show.visibility') %></strong>
+      <span>
+        <span class="badge" style="background-color: #3498db; color: white;">
+          <%= @board.visibility ? t('admin.boards.show.public') : t('admin.boards.show.private') %>
+        </span>
+      </span>
+    </div>
+
+    <div class="detail-row">
+      <strong><%= t('admin.boards.show.total_lists') %></strong>
+      <span>
+        <span class="badge" style="background-color: #2ecc71; color: white;">
+          <%= @board.lists_count %>
+        </span>
+      </span>
+    </div>
+
+    <div class="detail-row">
+      <strong><%= t('admin.boards.show.archive_status') %></strong>
+      <span>
+        <% if @board.archived_at %>
+          <span class="badge" style="background-color: #e74c3c; color: white;">
+            <%= t('admin.boards.show.archived_on') %> <%= @board.archived_at.strftime("%b %d, %Y") %>
+          </span>
+        <% else %>
+          <span class="badge" style="background-color: #27ae60; color: white;">
+            <%= t('admin.boards.show.active') %>
+          </span>
+        <% end %>
+      </span>
+    </div>
+
+    <div class="detail-row">
+      <strong><%= t('admin.boards.show.created') %></strong>
+      <span><%= @board.created_at.strftime("%b %d, %Y at %I:%M %p") %></span>
+    </div>
+
+    <div class="detail-row">
+      <strong><%= t('admin.boards.show.last_updated') %></strong>
+      <span><%= @board.updated_at.strftime("%b %d, %Y at %I:%M %p") %></span>
+    </div>
+  </div>
+
+  <% if @board.lists.any? %>
+    <div class="lists-section">
+      <h3>📝 <%= t('admin.boards.show.lists') %> (<%= @board.lists.count %>)</h3>
+      <ul class="list-group">
+        <% @board.lists.each do |list| %>
+          <li class="list-group-item">
+            <div>
+              <strong><%= list.name %></strong>
+            </div>
+            <span class="badge" style="background-color: #3498db; color: white;">
+              <%= list.tasks_count %> <%= t('admin.sidebar.tasks').downcase.pluralize(list.tasks_count) %>
+            </span>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% else %>
+    <div style="text-align: center; padding: 40px 20px; background: white; border-radius: 6px; margin-top: 32px;">
+      <div style="font-size: 40px; margin-bottom: 12px;">📭</div>
+      <p style="color: #7f8c8d;"><%= t('admin.boards.show.no_lists') %></p>
+    </div>
+  <% end %>
+</div>

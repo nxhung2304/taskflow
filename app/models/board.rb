@@ -38,4 +38,8 @@ class Board < ApplicationRecord
   validates :color, length: { maximum: 9 }, format: { with: /\A#(?:[0-9a-fA-F]{3}){1,2}(?:[0-9a-fA-F]{2})?\z/ }
   validates :visibility, inclusion: { in: [ true, false ] }
   validates :lists_count, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+
+  # scopes
+  scope :by_name, ->(name) { where("LOWER(name) LIKE ?", "%#{name.downcase}%") if name.present? }
+  scope :by_user, ->(user_id) { where(user_id: user_id) if user_id.present? }
 end

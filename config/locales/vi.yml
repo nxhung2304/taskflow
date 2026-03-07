@@ -1,0 +1,103 @@
+vi:
+  application:
+    name: Taskflow
+  activerecord:
+    models:
+      board: Bảng
+    attributes:
+      board:
+        name: Tên bảng
+        description: Mô tả
+        user_id: Chủ sở hữu
+        color: Màu sắc
+        visibility: Mức độ hiển thị
+        archived_at: Ngày lưu trữ
+    errors:
+      messages:
+        blank: "không thể để trống"
+        taken: "đã được sử dụng"
+        too_long: "quá dài (tối đa %{count} ký tự)"
+        too_short: "quá ngắn (tối thiểu %{count} ký tự)"
+        invalid: "không hợp lệ"
+        greater_than_or_equal_to: "phải lớn hơn hoặc bằng %{count}"
+        inclusion: "không nằm trong danh sách"
+  admin:
+    sidebar:
+      dashboard: Bảng điều khiển
+      boards: Bảng
+      lists: Danh sách
+      tasks: Nhiệm vụ
+      comments: Bình luận
+      users: Người dùng
+      soon: Sắp tới
+      sign_out: Đăng xuất
+      language: Ngôn ngữ
+    dashboard:
+      title: Bảng điều khiển
+      total_boards: Tổng số bảng
+      total_users: Tổng số người dùng
+      total_lists: Tổng số danh sách
+      total_tasks: Tổng số nhiệm vụ
+      view_all: Xem tất cả
+    boards:
+      messages:
+        created: Bảng đã được tạo thành công.
+        updated: Bảng đã được cập nhật thành công.
+        destroyed: Bảng đã được xóa thành công.
+      confirm_delete: "Bạn có chắc chắn muốn xóa bảng này không? Hành động này không thể hoàn tác."
+      index:
+        title: Quản lý bảng
+        add_new: Thêm bảng mới
+        no_boards: Không tìm thấy bảng nào
+        no_boards_desc: Hãy tạo bảng đầu tiên của bạn để bắt đầu tổ chức.
+        create_board: Tạo bảng mới
+        view: Xem
+        search: Tìm kiếm
+        clear: Xóa
+        search_placeholder: "Tìm kiếm theo tên bảng..."
+        owner_filter: Lọc theo chủ sở hữu
+        all_users: Tất cả người dùng
+      show:
+        title: Chi tiết bảng
+        edit: Chỉnh sửa
+        delete: Xóa
+        owner: Chủ sở hữu
+        description: Mô tả
+        color: Màu sắc
+        visibility: Mức độ hiển thị
+        public: Công khai
+        private: Riêng tư
+        total_lists: Tổng danh sách
+        archive_status: Trạng thái lưu trữ
+        active: Hoạt động
+        archived_on: "Được lưu trữ vào"
+        created: Được tạo
+        last_updated: Cập nhật cuối cùng
+        lists: Danh sách
+        no_lists: Chưa có danh sách nào được tạo
+      new:
+        title: Bảng mới
+        breadcrumb: Mới
+      edit:
+        title: Chỉnh sửa bảng
+        breadcrumb: Chỉnh sửa
+      form:
+        name: Tên bảng
+        name_required: "Tên bảng *"
+        description: Mô tả
+        owner: Chủ sở hữu
+        owner_required: "Chủ sở hữu *"
+        color: Màu bảng
+        visibility: Mức độ hiển thị
+        visibility_public: Công khai (hiển thị cho tất cả)
+        archive_date: Ngày lưu trữ (Tùy chọn)
+        save: Lưu
+        cancel: Hủy
+        name_placeholder: Nhập tên bảng
+        description_placeholder: Thêm mô tả cho bảng này (tùy chọn)
+        description_help: Tối đa 1000 ký tự
+        color_help: Chọn một màu cho bảng của bạn
+        archive_help: Để trống để giữ bảng hoạt động
+        owner_help: Ai sẽ sở hữu bảng này?
+        unique_name: Một tên duy nhất để xác định bảng này
+        select_user: Chọn một người dùng

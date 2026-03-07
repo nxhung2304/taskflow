@@ -30,3 +30,103 @@
 en:
   application:
     name: Taskflow
+  activerecord:
+    models:
+      board: Board
+    attributes:
+      board:
+        name: Board Name
+        description: Description
+        user_id: Owner
+        color: Color
+        visibility: Visibility
+        archived_at: Archive Date
+    errors:
+      messages:
+        blank: "can't be blank"
+        taken: "has already been taken"
+        too_long: "is too long (maximum %{count} characters)"
+        too_short: "is too short (minimum %{count} characters)"
+        invalid: "is invalid"
+        greater_than_or_equal_to: "must be greater than or equal to %{count}"
+        inclusion: "is not included in the list"
+  admin:
+    sidebar:
+      dashboard: Dashboard
+      boards: Boards
+      lists: Lists
+      tasks: Tasks
+      comments: Comments
+      users: Users
+      soon: Soon
+      sign_out: Sign Out
+      language: Language
+    dashboard:
+      title: Dashboard
+      total_boards: Total Boards
+      total_users: Total Users
+      total_lists: Total Lists
+      total_tasks: Total Tasks
+      view_all: View All
+    boards:
+      messages:
+        created: Board was successfully created.
+        updated: Board was successfully updated.
+        destroyed: Board was successfully destroyed.
+      confirm_delete: "Are you sure you want to delete this board? This action cannot be undone."
+      index:
+        title: Boards Management
+        add_new: Add New Board
+        no_boards: No Boards Found
+        no_boards_desc: Start by creating your first board to get organized.
+        create_board: Create New Board
+        view: View
+        search: Search
+        clear: Clear
+        search_placeholder: "Search by board name..."
+        owner_filter: Filter by Owner
+        all_users: All Users
+      show:
+        title: Board Details
+        edit: Edit
+        delete: Delete
+        owner: Owner
+        description: Description
+        color: Color
+        visibility: Visibility
+        public: Public
+        private: Private
+        total_lists: Total Lists
+        archive_status: Archive Status
+        active: Active
+        archived_on: "Archived on"
+        created: Created
+        last_updated: Last Updated
+        lists: Lists
+        no_lists: No lists created yet
+      new:
+        title: New Board
+        breadcrumb: New
+      edit:
+        title: Edit Board
+        breadcrumb: Edit
+      form:
+        name: Board Name
+        name_required: "Board Name *"
+        description: Description
+        owner: Owner
+        owner_required: "Owner *"
+        color: Board Color
+        visibility: Visibility
+        visibility_public: Public (visible to all)
+        archive_date: Archive Date (Optional)
+        save: Save
+        cancel: Cancel
+        name_placeholder: Enter board name
+        description_placeholder: Add a description for this board (optional)
+        description_help: Max 1000 characters
+        color_help: Choose a color for your board
+        archive_help: Leave empty to keep the board active
+        owner_help: Who will own this board?
+        unique_name: A unique name to identify this board
+        select_user: Select a user

@@ -1,0 +1,67 @@
+<%= form_with(model: [:admin, @board], local: true, data: { controller: "board-form" }) do |form| %>
+  <% if @board.errors.any? %>
+    <div class="alert alert-danger">
+      <span class="alert-icon">!</span>
+      <div>
+        <strong><%= pluralize(@board.errors.count, "error") %> prevented this board from being saved:</strong>
+        <ul style="margin-top: 10px;">
+          <% @board.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+      <button type="button" class="alert-close">&times;</button>
+    </div>
+  <% end %>
+
+  <div class="form-card">
+    <div class="form-group">
+      <%= form.label :name, t('admin.boards.form.name_required') %>
+      <%= form.text_field :name, class: "form-control", required: true, maxlength: 255, placeholder: t('admin.boards.form.name_placeholder') %>
+      <small class="form-help-text"><%= t('admin.boards.form.unique_name') %></small>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :user_id, t('admin.boards.form.owner_required') %>
+      <%= form.select :user_id, @users, { prompt: t('admin.boards.form.select_user') }, class: "form-control", required: true %>
+      <small class="form-help-text"><%= t('admin.boards.form.owner_help') %></small>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :description, t('admin.boards.form.description') %>
+      <%= form.text_area :description, class: "form-control", rows: 5, maxlength: 1000, placeholder: t('admin.boards.form.description_placeholder') %>
+      <small class="form-help-text"><%= t('admin.boards.form.description_help') %></small>
+    </div>
+
+    <div class="form-row-grid">
+      <div class="form-group">
+        <%= form.label :color, t('admin.boards.form.color') %>
+        <div class="form-color-wrapper">
+          <%= form.color_field :color, class: "form-control form-color-input", data: { "board-form-target": "colorInput", action: "change->board-form#updateColorCode" } %>
+          <span class="form-color-code" data-board-form-target="colorCode"><%= @board.color %></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :visibility, t('admin.boards.form.visibility') %>
+        <div class="form-check" style="margin-top: 12px;">
+          <%= form.check_box :visibility, { class: "form-check-input" } %>
+          <label class="form-check-label" style="font-weight: normal;">
+            <%= t('admin.boards.form.visibility_public') %>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :archived_at, t('admin.boards.form.archive_date') %>
+      <%= form.datetime_local_field :archived_at, class: "form-control" %>
+      <small class="form-help-text"><%= t('admin.boards.form.archive_help') %></small>
+    </div>
+
+    <div class="form-actions">
+      <%= form.submit class: "btn btn-primary" %>
+      <%= link_to t('admin.boards.form.cancel'), admin_boards_path, class: "btn btn-secondary" %>
+    </div>
+  </div>
+<% end %>
