@@ -1,11 +1,11 @@
 <% content_for :page_title do %>
-  New Board
+  <%= t('admin.boards.new.title') %>
 <% end %>
 
 <% content_for :breadcrumb do %>
-  <%= link_to "Dashboard", admin_root_path %> <span>></span>
-  <%= link_to "Boards", admin_boards_path %> <span>></span>
-  <strong>New</strong>
+  <%= link_to t('admin.sidebar.dashboard'), admin_root_path %> <span>></span>
+  <%= link_to t('admin.sidebar.boards'), admin_boards_path %> <span>></span>
+  <strong><%= t('admin.boards.new.breadcrumb') %></strong>
 <% end %>
 
 <div class="admin-container">

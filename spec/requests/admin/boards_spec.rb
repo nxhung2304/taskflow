@@ -137,6 +137,13 @@ RSpec.describe "Admin::Boards", type: :request do
 
         expect(response).to have_http_status(:unprocessable_entity)
       end
+
+      it "displays error messages with translated field names" do
+        post admin_boards_path, params: invalid_params
+        # Form displays error list with translated attribute names
+        expect(response.body).to include("Board Name")
+        expect(response.body).to include("prevented this board from being saved")
+      end
     end
   end
 

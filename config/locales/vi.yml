@@ -1,6 +1,26 @@
 vi:
   application:
     name: Taskflow
+  activerecord:
+    models:
+      board: Bảng
+    attributes:
+      board:
+        name: Tên bảng
+        description: Mô tả
+        user_id: Chủ sở hữu
+        color: Màu sắc
+        visibility: Mức độ hiển thị
+        archived_at: Ngày lưu trữ
+    errors:
+      messages:
+        blank: "không thể để trống"
+        taken: "đã được sử dụng"
+        too_long: "quá dài (tối đa %{count} ký tự)"
+        too_short: "quá ngắn (tối thiểu %{count} ký tự)"
+        invalid: "không hợp lệ"
+        greater_than_or_equal_to: "phải lớn hơn hoặc bằng %{count}"
+        inclusion: "không nằm trong danh sách"
   admin:
     sidebar:
       dashboard: Bảng điều khiển
@@ -57,8 +77,10 @@ vi:
         no_lists: Chưa có danh sách nào được tạo
       new:
         title: Bảng mới
+        breadcrumb: Mới
       edit:
         title: Chỉnh sửa bảng
+        breadcrumb: Chỉnh sửa
       form:
         name: Tên bảng
         name_required: "Tên bảng *"

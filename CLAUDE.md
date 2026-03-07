@@ -73,7 +73,7 @@ A Trello-like task management application with Rails API backend and Flutter mob
 ### Phase 3: Admin Side
 
 **CRUD Operations**
-- [ ] Boards controller (CRUD + ownership) - [#43](https://github.com/nxhung2304/taskflow/issues/43)
+- [x] Boards controller (CRUD + ownership) - [#43](https://github.com/nxhung2304/taskflow/issues/43)
 - [ ] Lists controller (with position ordering) - [#44](https://github.com/nxhung2304/taskflow/issues/44)
 - [ ] Tasks controller (with status management) - [#45](https://github.com/nxhung2304/taskflow/issues/45)
 - [ ] Comments controller - [#46](https://github.com/nxhung2304/taskflow/issues/46)

@@ -12,8 +12,7 @@ class Admin::BoardsController < Admin::ApplicationController
                    .per(20)
   end
 
-  def show
-  end
+  def show; end
 
   def new
     @board = Board.new

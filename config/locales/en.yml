@@ -30,6 +30,26 @@
 en:
   application:
     name: Taskflow
+  activerecord:
+    models:
+      board: Board
+    attributes:
+      board:
+        name: Board Name
+        description: Description
+        user_id: Owner
+        color: Color
+        visibility: Visibility
+        archived_at: Archive Date
+    errors:
+      messages:
+        blank: "can't be blank"
+        taken: "has already been taken"
+        too_long: "is too long (maximum %{count} characters)"
+        too_short: "is too short (minimum %{count} characters)"
+        invalid: "is invalid"
+        greater_than_or_equal_to: "must be greater than or equal to %{count}"
+        inclusion: "is not included in the list"
   admin:
     sidebar:
       dashboard: Dashboard
@@ -86,8 +106,10 @@ en:
         no_lists: No lists created yet
       new:
         title: New Board
+        breadcrumb: New
       edit:
         title: Edit Board
+        breadcrumb: Edit
       form:
         name: Board Name
         name_required: "Board Name *"
