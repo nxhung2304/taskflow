@@ -1,0 +1,148 @@
+require "rails_helper"
+
+RSpec.describe "Admin::Boards", type: :request do
+  let(:admin_user) { create(:admin_user, password: "password123") }
+  let(:user) { create(:user) }
+  let(:board) { create(:board, user:) }
+
+  before { sign_in_admin admin_user }
+
+  describe "GET /admin/boards" do
+    it "returns 200 and lists all boards" do
+      create(:board, user:)
+      get admin_boards_path
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Boards")
+    end
+  end
+
+  describe "GET /admin/boards/new" do
+    it "returns 200 and renders the new form" do
+      get new_admin_board_path
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Board Name")
+      expect(response.body).to include("Owner")
+    end
+  end
+
+  describe "POST /admin/boards" do
+    context "with valid params" do
+      let(:valid_params) do
+        {
+          board: {
+            name: "New Board",
+            description: "Test board",
+            user_id: user.id,
+            color: "#FF0000",
+            visibility: true
+          }
+        }
+      end
+
+      it "creates a board and redirects to show" do
+        expect {
+          post admin_boards_path, params: valid_params
+        }.to change(Board, :count).by(1)
+
+        expect(response).to redirect_to(admin_board_path(Board.last))
+        follow_redirect!
+        expect(response.body).to include("Board was successfully created.")
+      end
+    end
+
+    context "with invalid params" do
+      let(:invalid_params) do
+        {
+          board: {
+            name: "",
+            user_id: user.id
+          }
+        }
+      end
+
+      it "does not create a board and renders new" do
+        expect {
+          post admin_boards_path, params: invalid_params
+        }.not_to change(Board, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+  end
+
+  describe "GET /admin/boards/:id" do
+    it "returns 200 and displays the board" do
+      get admin_board_path(board)
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include(board.name)
+      expect(response.body).to include(user.name)
+    end
+  end
+
+  describe "GET /admin/boards/:id/edit" do
+    it "returns 200 and renders the edit form" do
+      get edit_admin_board_path(board)
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Edit Board")
+      expect(response.body).to include(board.name)
+    end
+  end
+
+  describe "PATCH /admin/boards/:id" do
+    context "with valid params" do
+      let(:update_params) do
+        {
+          board: {
+            name: "Updated Board Name",
+            description: "Updated description"
+          }
+        }
+      end
+
+      it "updates the board and redirects to show" do
+        patch admin_board_path(board), params: update_params
+        expect(response).to redirect_to(admin_board_path(board))
+
+        board.reload
+        expect(board.name).to eq("Updated Board Name")
+        expect(board.description).to eq("Updated description")
+
+        follow_redirect!
+        expect(response.body).to include("Board was successfully updated.")
+      end
+    end
+
+    context "with invalid params" do
+      let(:invalid_params) do
+        {
+          board: {
+            name: ""
+          }
+        }
+      end
+
+      it "does not update the board and renders edit" do
+        original_name = board.name
+        patch admin_board_path(board), params: invalid_params
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(board.reload.name).to eq(original_name)
+      end
+    end
+  end
+
+  describe "DELETE /admin/boards/:id" do
+    it "deletes the board and redirects to index" do
+      board_id = board.id
+      expect {
+        delete admin_board_path(board)
+      }.to change(Board, :count).by(-1)
+
+      expect(response).to redirect_to(admin_boards_path)
+      expect(Board.exists?(board_id)).to be false
+
+      follow_redirect!
+      expect(response.body).to include("Board was successfully destroyed.")
+    end
+  end
+end

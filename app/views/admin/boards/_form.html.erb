@@ -1,0 +1,73 @@
+<%= form_with(model: [:admin, @board], local: true) do |form| %>
+  <% if @board.errors.any? %>
+    <div class="alert alert-danger">
+      <span class="alert-icon">!</span>
+      <div>
+        <strong><%= pluralize(@board.errors.count, "error") %> prevented this board from being saved:</strong>
+        <ul style="margin-top: 10px;">
+          <% @board.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+      <button type="button" class="alert-close">&times;</button>
+    </div>
+  <% end %>
+
+  <div style="background: white; padding: 24px; border-radius: 6px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);">
+    <div class="form-group">
+      <%= form.label :name, "Board Name *" %>
+      <%= form.text_field :name, class: "form-control", required: true, maxlength: 255, placeholder: "Enter board name" %>
+      <small style="color: #95a5a6; margin-top: 4px; display: block;">A unique name to identify this board</small>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :user_id, "Owner *" %>
+      <%= form.select :user_id, @users, { prompt: "Select a user" }, class: "form-control", required: true %>
+      <small style="color: #95a5a6; margin-top: 4px; display: block;">Who will own this board?</small>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :description, "Description" %>
+      <%= form.text_area :description, class: "form-control", rows: 5, maxlength: 1000, placeholder: "Add a description for this board (optional)" %>
+      <small style="color: #95a5a6; margin-top: 4px; display: block;">Max 1000 characters</small>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      <div class="form-group">
+        <%= form.label :color, "Board Color" %>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <%= form.color_field :color, class: "form-control", style: "width: 60px; height: 40px; padding: 4px;" %>
+          <span style="color: #95a5a6; font-size: 12px;" id="color-code"><%= @board.color %></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :visibility, "Visibility" %>
+        <div class="form-check" style="margin-top: 12px;">
+          <%= form.check_box :visibility, { class: "form-check-input" } %>
+          <label class="form-check-label" style="font-weight: normal;">
+            Public <small style="color: #95a5a6;">(visible to all)</small>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :archived_at, "Archive Date (Optional)" %>
+      <%= form.datetime_local_field :archived_at, class: "form-control" %>
+      <small style="color: #95a5a6; margin-top: 4px; display: block;">Leave empty to keep the board active</small>
+    </div>
+
+    <div style="display: flex; gap: 12px; margin-top: 32px; padding-top: 24px; border-top: 1px solid #e0e6ed;">
+      <%= form.submit class: "btn btn-primary" %>
+      <%= link_to "Cancel", admin_boards_path, class: "btn btn-secondary" %>
+    </div>
+  </div>
+
+  <script>
+    document.querySelector('input[type="color"]').addEventListener('change', function() {
+      document.getElementById('color-code').textContent = this.value;
+    });
+  </script>
+<% end %>

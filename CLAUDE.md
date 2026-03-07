@@ -64,11 +64,9 @@ A Trello-like task management application with Rails API backend and Flutter mob
 - [x] **Comment API** - [#87](https://github.com/nxhung2304/taskflow/issues/87)
   - Route: Nested `/api/v1/tasks/:task_id/comments`
 
-- [ ] ** Docs for API** - [#48](https://github.com/nxhung2304/taskflow/issues/48)
+- [x] ** Docs for API** - [#48](https://github.com/nxhung2304/taskflow/issues/48)
   - [ ] API documentation ( Rswag )
-
-- [ ]**Use Rspec instead of Mini Test**
-- 
+- [x] **Use Rspec instead of Mini Test** 
 
 ---
 

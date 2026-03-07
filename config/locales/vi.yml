@@ -1,0 +1,67 @@
+vi:
+  application:
+    name: Taskflow
+  admin:
+    sidebar:
+      dashboard: Bảng điều khiển
+      boards: Bảng
+      lists: Danh sách
+      tasks: Nhiệm vụ
+      comments: Bình luận
+      users: Người dùng
+      soon: Sắp tới
+      sign_out: Đăng xuất
+      language: Ngôn ngữ
+    dashboard:
+      title: Bảng điều khiển
+      total_boards: Tổng số bảng
+      total_users: Tổng số người dùng
+      total_lists: Tổng số danh sách
+      total_tasks: Tổng số nhiệm vụ
+      view_all: Xem tất cả
+    boards:
+      index:
+        title: Quản lý bảng
+        add_new: Thêm bảng mới
+        no_boards: Không tìm thấy bảng nào
+        no_boards_desc: Hãy tạo bảng đầu tiên của bạn để bắt đầu tổ chức.
+        create_board: Tạo bảng mới
+        view: Xem
+      show:
+        title: Chi tiết bảng
+        edit: Chỉnh sửa
+        delete: Xóa
+        owner: Chủ sở hữu
+        description: Mô tả
+        color: Màu sắc
+        visibility: Mức độ hiển thị
+        public: Công khai
+        private: Riêng tư
+        total_lists: Tổng danh sách
+        archive_status: Trạng thái lưu trữ
+        active: Hoạt động
+        archived_on: "Được lưu trữ vào"
+        created: Được tạo
+        last_updated: Cập nhật cuối cùng
+        lists: Danh sách
+        no_lists: Chưa có danh sách nào được tạo
+      new:
+        title: Bảng mới
+      edit:
+        title: Chỉnh sửa bảng
+      form:
+        name: Tên bảng
+        description: Mô tả
+        owner: Chủ sở hữu
+        color: Màu bảng
+        visibility: Mức độ hiển thị
+        visibility_public: Công khai (hiển thị cho tất cả)
+        archive_date: Ngày lưu trữ (Tùy chọn)
+        save: Lưu
+        cancel: Hủy
+        name_placeholder: Nhập tên bảng
+        description_placeholder: Thêm mô tả cho bảng này (tùy chọn)
+        description_help: Tối đa 1000 ký tự
+        color_help: Chọn một màu cho bảng của bạn
+        archive_help: Để trống để giữ bảng hoạt động
+        owner_help: Ai sẽ sở hữu bảng này?

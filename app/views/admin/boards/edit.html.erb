@@ -1,0 +1,16 @@
+<% content_for :page_title do %>
+  Edit Board
+<% end %>
+
+<% content_for :breadcrumb do %>
+  <%= link_to "Dashboard", admin_root_path %> <span>></span>
+  <%= link_to "Boards", admin_boards_path %> <span>></span>
+  <%= link_to @board.name, admin_board_path(@board) %> <span>></span>
+  <strong>Edit</strong>
+<% end %>
+
+<div class="admin-container">
+  <div style="max-width: 600px;">
+    <%= render "form", board: @board %>
+  </div>
+</div>

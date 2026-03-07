@@ -30,3 +30,67 @@
 en:
   application:
     name: Taskflow
+  admin:
+    sidebar:
+      dashboard: Dashboard
+      boards: Boards
+      lists: Lists
+      tasks: Tasks
+      comments: Comments
+      users: Users
+      soon: Soon
+      sign_out: Sign Out
+      language: Language
+    dashboard:
+      title: Dashboard
+      total_boards: Total Boards
+      total_users: Total Users
+      total_lists: Total Lists
+      total_tasks: Total Tasks
+      view_all: View All
+    boards:
+      index:
+        title: Boards Management
+        add_new: Add New Board
+        no_boards: No Boards Found
+        no_boards_desc: Start by creating your first board to get organized.
+        create_board: Create New Board
+        view: View
+      show:
+        title: Board Details
+        edit: Edit
+        delete: Delete
+        owner: Owner
+        description: Description
+        color: Color
+        visibility: Visibility
+        public: Public
+        private: Private
+        total_lists: Total Lists
+        archive_status: Archive Status
+        active: Active
+        archived_on: "Archived on"
+        created: Created
+        last_updated: Last Updated
+        lists: Lists
+        no_lists: No lists created yet
+      new:
+        title: New Board
+      edit:
+        title: Edit Board
+      form:
+        name: Board Name
+        description: Description
+        owner: Owner
+        color: Board Color
+        visibility: Visibility
+        visibility_public: Public (visible to all)
+        archive_date: Archive Date (Optional)
+        save: Save
+        cancel: Cancel
+        name_placeholder: Enter board name
+        description_placeholder: Add a description for this board (optional)
+        description_help: Max 1000 characters
+        color_help: Choose a color for your board
+        archive_help: Leave empty to keep the board active
+        owner_help: Who will own this board?

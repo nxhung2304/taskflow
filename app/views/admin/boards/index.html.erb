@@ -1,0 +1,85 @@
+<% content_for :page_title do %>
+  <%= t('admin.boards.index.title') %>
+<% end %>
+
+<% content_for :breadcrumb do %>
+  <%= link_to t('admin.sidebar.dashboard'), admin_root_path %> <span>></span> <strong><%= t('admin.sidebar.boards') %></strong>
+<% end %>
+
+<% content_for :header_actions do %>
+  <%= link_to t('admin.boards.index.add_new'), new_admin_board_path, class: "btn btn-primary" %>
+<% end %>
+
+<div class="admin-container">
+  <% if @boards.any? %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th><%= t('admin.boards.form.name') %></th>
+          <th><%= t('admin.boards.show.owner') %></th>
+          <th><%= t('admin.boards.form.description') %></th>
+          <th><%= t('admin.boards.show.visibility') %></th>
+          <th><%= t('admin.boards.show.total_lists') %></th>
+          <th><%= t('admin.boards.show.created') %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @boards.each do |board| %>
+          <tr>
+            <td>
+              <strong><%= board.name %></strong>
+            </td>
+            <td><%= board.user.name %></td>
+            <td>
+              <% if board.description.present? %>
+                <span class="text-muted"><%= truncate(board.description, length: 45) %></span>
+              <% else %>
+                <span class="text-muted">—</span>
+              <% end %>
+            </td>
+            <td>
+              <span class="badge" style="background-color: <%= board.color %>80; color: #2c3e50;">
+                <%= board.visibility ? t('admin.boards.show.public') : t('admin.boards.show.private') %>
+              </span>
+            </td>
+            <td>
+              <span class="badge" style="background-color: #3498db; color: white;">
+                <%= board.lists_count %>
+              </span>
+            </td>
+            <td><small><%= board.created_at.strftime("%b %d, %Y") %></small></td>
+            <td style="white-space: nowrap;">
+              <%= link_to t('admin.boards.index.view'), admin_board_path(board), class: "btn btn-sm btn-primary" %>
+              <%= link_to t('admin.boards.show.edit'), edit_admin_board_path(board), class: "btn btn-sm btn-warning" %>
+              <%= link_to t('admin.boards.show.delete'), admin_board_path(board), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <div class="pagination-section">
+      <%= paginate @boards %>
+    </div>
+  <% else %>
+    <div style="text-align: center; padding: 60px 20px;">
+      <div style="font-size: 48px; margin-bottom: 16px;">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="1.5">
+          <rect x="3" y="3" width="7" height="7"></rect>
+          <rect x="14" y="3" width="7" height="7"></rect>
+          <rect x="14" y="14" width="7" height="7"></rect>
+          <rect x="3" y="14" width="7" height="7"></rect>
+        </svg>
+      </div>
+      <h2 style="color: #9ca3af; margin-bottom: 16px;"><%= t('admin.boards.index.no_boards') %></h2>
+      <p style="color: #d1d5db; margin-bottom: 24px;"><%= t('admin.boards.index.no_boards_desc') %></p>
+      <%= link_to t('admin.boards.index.create_board'), new_admin_board_path, class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>
+
+<style>
+  .text-muted {
+    color: #95a5a6;
+  }
+</style>
