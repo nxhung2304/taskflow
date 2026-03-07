@@ -51,7 +51,7 @@ RSpec.describe "Api::V1::Boards", type: :request do
                headers: auth_headers_for(user)
         }.to change(user.boards, :count).by(1)
 
-        expect(response).to have_http_status(:ok)
+        expect(response).to have_http_status(:created)
       end
     end
 

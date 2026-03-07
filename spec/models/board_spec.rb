@@ -12,7 +12,12 @@ RSpec.describe Board, type: :model do
     # name
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_length_of(:name).is_at_most(255) }
-    it { is_expected.to validate_uniqueness_of(:name).scoped_to(:user_id) }
+    it "validates uniqueness of name scoped to user_id" do
+      user = create(:user)
+      create(:board, user: user, name: "Duplicate Name")
+      board = build(:board, user: user, name: "Duplicate Name")
+      expect(board).not_to be_valid
+    end
 
     # description
     it { is_expected.to allow_value(nil).for(:description) }

@@ -4,7 +4,8 @@ mount Rswag::Ui::Engine => "/api-docs"
 namespace :api do
   namespace :v1 do
     mount_devise_token_auth_for "User", at: "auth", controllers: {
-      sessions: "api/v1/auth/sessions"
+      sessions: "api/v1/auth/sessions",
+      registrations: "api/v1/auth/registrations"
     }
 
     resources :users,  only: [] do
