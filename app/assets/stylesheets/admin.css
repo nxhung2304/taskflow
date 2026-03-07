@@ -645,6 +645,51 @@ textarea.form-control {
   max-width: 1400px;
 }
 
+/* Search & Filter Section */
+.search-filter-section {
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  border: 1px solid #e5e7eb;
+}
+
+.search-form .search-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 16px;
+  align-items: flex-end;
+}
+
+.search-form .form-group {
+  margin-bottom: 0;
+}
+
+.search-form .form-group label {
+  display: none;
+}
+
+.search-form .form-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .search-form .search-inputs {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  .search-form .form-actions {
+    grid-column: 1 / -1;
+  }
+
+  .search-form .form-actions .btn {
+    flex: 1;
+  }
+}
+
 .header-section {
   display: flex;
   justify-content: space-between;

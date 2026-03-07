@@ -11,6 +11,26 @@
 <% end %>
 
 <div class="admin-container">
+  <!-- Search and Filter Section -->
+  <div class="search-filter-section">
+    <%= form_with url: admin_boards_path, method: :get, local: true, class: "search-form" do |f| %>
+      <div class="search-inputs">
+        <div class="form-group">
+          <%= f.text_field :search, placeholder: t('admin.boards.index.search_placeholder'), value: params[:search], class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.select :user_id, options_for_select([[t('admin.boards.index.all_users'), '']] + @users.map { |u| [u.name, u.id] }, params[:user_id]), { include_blank: false }, class: "form-control" %>
+        </div>
+        <div class="form-actions">
+          <%= f.submit t('admin.boards.index.search'), class: "btn btn-primary" %>
+          <% if params[:search].present? || params[:user_id].present? %>
+            <%= link_to t('admin.boards.index.clear'), admin_boards_path, class: "btn btn-secondary" %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
   <% if @boards.any? %>
     <table class="table">
       <thead>

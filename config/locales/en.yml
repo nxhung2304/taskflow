@@ -56,6 +56,11 @@ en:
         no_boards_desc: Start by creating your first board to get organized.
         create_board: Create New Board
         view: View
+        search: Search
+        clear: Clear
+        search_placeholder: "Search by board name..."
+        owner_filter: Filter by Owner
+        all_users: All Users
       show:
         title: Board Details
         edit: Edit

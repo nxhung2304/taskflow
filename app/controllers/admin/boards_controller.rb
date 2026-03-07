@@ -3,7 +3,12 @@ class Admin::BoardsController < Admin::ApplicationController
   before_action :set_board, only: %i[show edit update destroy]
 
   def index
-    @boards = Board.includes(:user).page(params[:page]).per(20)
+    @users = User.all
+    @boards = Board.includes(:user)
+                   .by_name(params[:search])
+                   .by_user(params[:user_id])
+                   .page(params[:page])
+                   .per(20)
   end
 
   def show
