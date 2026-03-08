@@ -1,0 +1,122 @@
+<% content_for :page_title do %>
+  <%= @board ? "#{@board.name} - #{t('admin.lists.index.title')}" : t('admin.lists.index.title') %>
+<% end %>
+
+<% content_for :breadcrumb do %>
+  <%= link_to t('admin.sidebar.dashboard'), admin_root_path %> <span>></span>
+  <% if @board %>
+    <%= link_to t('admin.sidebar.boards'), admin_boards_path %> <span>></span>
+    <%= link_to @board.name, admin_board_path(@board) %> <span>></span>
+  <% end %>
+  <strong><%= t('admin.sidebar.lists') %></strong>
+<% end %>
+
+<% content_for :header_actions do %>
+  <% if @board %>
+    <%= link_to t('admin.lists.index.add_new'), new_admin_board_list_path(@board), class: "btn btn-primary" %>
+  <% else %>
+    <%= link_to t('admin.lists.index.add_new'), new_admin_list_path, class: "btn btn-primary" %>
+  <% end %>
+<% end %>
+
+<div class="admin-container">
+  <!-- Search and Filter Section -->
+  <div class="search-filter-section">
+    <% search_path = @board ? admin_board_lists_path(@board) : admin_lists_path %>
+    <%= form_with url: search_path, method: :get, local: true, class: "search-form" do |f| %>
+      <div class="search-inputs">
+        <div class="form-group">
+          <%= f.text_field :search, placeholder: t('admin.lists.index.search_placeholder'), value: params[:search], class: "form-control" %>
+        </div>
+        <% unless @board %>
+          <div class="form-group">
+            <%= f.select :filter_board_id, options_for_select([[t('admin.lists.index.all_boards'), '']] + @boards.map { |b| [b.name, b.id] }, params[:filter_board_id]), { include_blank: false }, class: "form-control" %>
+          </div>
+        <% end %>
+        <div class="form-actions">
+          <%= f.submit t('admin.lists.index.search'), class: "btn btn-primary" %>
+          <% if params[:search].present? || params[:filter_board_id].present? %>
+            <%= link_to t('admin.lists.index.clear'), search_path, class: "btn btn-secondary" %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <% if @lists.any? %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th><%= t('admin.lists.form.name') %></th>
+          <% unless @board %>
+            <th><%= t('admin.lists.show.board') %></th>
+          <% end %>
+          <th><%= t('admin.lists.show.position') %></th>
+          <th><%= t('admin.lists.show.tasks_count') %></th>
+          <th><%= t('admin.lists.show.created') %></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @lists.each do |list| %>
+          <tr>
+            <td>
+              <strong><%= list.name %></strong>
+            </td>
+            <% unless @board %>
+              <td>
+                <%= link_to list.board.name, admin_board_path(list.board) %>
+              </td>
+            <% end %>
+            <td><%= list.position %></td>
+            <td>
+              <span class="badge" style="background-color: #3498db; color: white;">
+                <%= list.tasks_count %>
+              </span>
+            </td>
+            <td><small><%= list.created_at.strftime("%b %d, %Y") %></small></td>
+            <td style="white-space: nowrap;">
+              <% if @board %>
+                <%= link_to t('admin.lists.index.view'), admin_board_list_path(@board, list), class: "btn btn-sm btn-primary" %>
+                <%= link_to t('admin.lists.show.edit'), edit_admin_board_list_path(@board, list), class: "btn btn-sm btn-warning" %>
+                <%= button_to t('admin.lists.show.delete'), admin_board_list_path(@board, list), method: :delete, data: { turbo_confirm: t('admin.lists.confirm_delete', default: "Are you sure?") }, class: "btn btn-sm btn-danger", form_class: "d-inline" %>
+              <% else %>
+                <%= link_to t('admin.lists.index.view'), admin_board_list_path(list.board, list), class: "btn btn-sm btn-primary" %>
+                <%= link_to t('admin.lists.show.edit'), edit_admin_board_list_path(list.board, list), class: "btn btn-sm btn-warning" %>
+                <%= button_to t('admin.lists.show.delete'), admin_board_list_path(list.board, list), method: :delete, data: { turbo_confirm: t('admin.lists.confirm_delete', default: "Are you sure?") }, class: "btn btn-sm btn-danger", form_class: "d-inline" %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <div class="pagination-section">
+      <%= paginate @lists %>
+    </div>
+  <% else %>
+    <div style="text-align: center; padding: 60px 20px;">
+      <div style="font-size: 48px; margin-bottom: 16px;">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="1.5">
+          <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2-2a2 2 0 0 0-2-2"></path>
+          <line x1="9" y1="10" x2="15" y2="10"></line>
+          <line x1="9" y1="15" x2="15" y2="15"></line>
+        </svg>
+      </div>
+      <h2 style="color: #9ca3af; margin-bottom: 16px;"><%= t('admin.lists.index.no_lists') %></h2>
+      <% if @board %>
+        <p style="color: #d1d5db; margin-bottom: 24px;"><%= t('admin.lists.index.no_lists_desc') %></p>
+        <%= link_to t('admin.lists.index.create_list'), new_admin_board_list_path(@board), class: "btn btn-primary" %>
+      <% else %>
+        <p style="color: #d1d5db; margin-bottom: 24px;"><%= t('admin.lists.index.no_lists_global_desc') %></p>
+        <%= link_to t('admin.lists.index.create_list'), new_admin_list_path, class: "btn btn-primary" %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<style>
+  .text-muted {
+    color: #95a5a6;
+  }
+</style>

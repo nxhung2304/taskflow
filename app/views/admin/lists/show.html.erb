@@ -1,0 +1,84 @@
+<% content_for :page_title do %>
+  <%= @list.name %>
+<% end %>
+
+<% content_for :breadcrumb do %>
+  <%= link_to t('admin.sidebar.dashboard'), admin_root_path %> <span>></span>
+  <%= link_to t('admin.sidebar.boards'), admin_boards_path %> <span>></span>
+  <%= link_to @board.name, admin_board_path(@board) %> <span>></span>
+  <strong><%= @list.name %></strong>
+<% end %>
+
+<% content_for :header_actions do %>
+  <%= link_to t('admin.lists.show.edit'), edit_admin_board_list_path(@board, @list), class: "btn btn-warning" %>
+  <%= button_to t('admin.lists.show.delete'), admin_board_list_path(@board, @list), method: :delete, data: { turbo_confirm: t('admin.lists.confirm_delete', default: "Are you sure?") }, class: "btn btn-danger", form_class: "d-inline" %>
+<% end %>
+
+<div class="admin-container">
+  <div class="list-details">
+    <div class="detail-row">
+      <strong><%= t('admin.lists.form.name') %></strong>
+      <span><%= @list.name %></span>
+    </div>
+
+    <div class="detail-row">
+      <strong><%= t('admin.lists.show.position') %></strong>
+      <span><%= @list.position %></span>
+    </div>
+
+    <div class="detail-row">
+      <strong><%= t('admin.lists.show.tasks_count') %></strong>
+      <span>
+        <span class="badge" style="background-color: #3498db; color: white;">
+          <%= @list.tasks_count %>
+        </span>
+      </span>
+    </div>
+
+    <div class="detail-row">
+      <strong><%= t('admin.lists.show.board') %></strong>
+      <span>
+        <%= link_to @board.name, admin_board_path(@board) %>
+      </span>
+    </div>
+
+    <div class="detail-row">
+      <strong><%= t('admin.lists.show.created') %></strong>
+      <span><%= @list.created_at.strftime("%b %d, %Y at %I:%M %p") %></span>
+    </div>
+
+    <div class="detail-row">
+      <strong><%= t('admin.lists.show.last_updated') %></strong>
+      <span><%= @list.updated_at.strftime("%b %d, %Y at %I:%M %p") %></span>
+    </div>
+  </div>
+
+  <% if @list.tasks.any? %>
+    <div class="tasks-section">
+      <h3>📋 <%= t('admin.sidebar.tasks') %> (<%= @list.tasks_count %>)</h3>
+      <ul class="list-group">
+        <% @list.tasks.each do |task| %>
+          <li class="list-group-item">
+            <div>
+              <strong><%= task.title %></strong>
+            </div>
+            <small class="text-muted">
+              <%= task.description %>
+            </small>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% else %>
+    <div style="text-align: center; padding: 40px 20px; background: white; border-radius: 6px; margin-top: 32px;">
+      <div style="font-size: 40px; margin-bottom: 12px;">📭</div>
+      <p style="color: #7f8c8d;"><%= t('admin.lists.show.no_tasks') %></p>
+    </div>
+  <% end %>
+</div>
+
+<style>
+  .text-muted {
+    color: #95a5a6;
+  }
+</style>

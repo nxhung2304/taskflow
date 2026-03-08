@@ -130,3 +130,48 @@ en:
         owner_help: Who will own this board?
         unique_name: A unique name to identify this board
         select_user: Select a user
+    lists:
+      messages:
+        created: List was successfully created.
+        updated: List was successfully updated.
+        destroyed: List was successfully destroyed.
+      confirm_delete: "Are you sure you want to delete this list? This action cannot be undone."
+      index:
+        title: Lists Management
+        add_new: Add New List
+        no_lists: No Lists Found
+        no_lists_desc: Start by creating your first list to organize tasks.
+        no_lists_global_desc: Create a list by selecting a board and entering the list name.
+        create_list: Create New List
+        view: View
+        search: Search
+        clear: Clear
+        search_placeholder: "Search by list name..."
+        board_filter: Filter by Board
+        all_boards: All Boards
+      show:
+        title: List Details
+        edit: Edit
+        delete: Delete
+        position: Position
+        tasks_count: Tasks Count
+        board: Board
+        created: Created
+        last_updated: Last Updated
+        no_tasks: No tasks in this list
+      new:
+        title: New List
+        breadcrumb: New
+      edit:
+        title: Edit List
+        breadcrumb: Edit
+      form:
+        name: List Name
+        name_required: "List Name *"
+        board: Board
+        board_required: "Board *"
+        name_placeholder: Enter list name
+        name_help: A descriptive name for this list/column
+        select_board: Select a board
+        board_help: Choose which board this list belongs to
+        cancel: Cancel

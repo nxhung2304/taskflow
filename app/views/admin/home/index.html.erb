@@ -24,18 +24,6 @@
 
     <div class="stat-card">
       <div class="stat-icon">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-          <circle cx="12" cy="7" r="4"></circle>
-        </svg>
-      </div>
-      <div class="stat-label"><%= t('admin.dashboard.total_users') %></div>
-      <div class="stat-value"><%= @users_count %></div>
-      <span class="stat-badge"><%= t('admin.sidebar.soon') %></span>
-    </div>
-
-    <div class="stat-card">
-      <div class="stat-icon">
         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2">
           <path d="M9 11l3 3L22 4"></path>
           <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -43,6 +31,18 @@
       </div>
       <div class="stat-label"><%= t('admin.dashboard.total_lists') %></div>
       <div class="stat-value"><%= @lists_count %></div>
+      <%= link_to t('admin.dashboard.view_all'), admin_lists_path, class: "stat-link" %>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+      </div>
+      <div class="stat-label"><%= t('admin.dashboard.total_users') %></div>
+      <div class="stat-value"><%= @users_count %></div>
       <span class="stat-badge"><%= t('admin.sidebar.soon') %></span>
     </div>
 

@@ -30,4 +30,8 @@ class List < ApplicationRecord
   # validations
   validates :name, presence: true, length: { maximum: 255 }
   validates :tasks_count, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+
+  # scopes
+  scope :by_name, ->(name) { where("name ILIKE ?", "%#{name}%") if name.present? }
+  scope :by_board, ->(board_id) { where(board_id: board_id) if board_id.present? }
 end

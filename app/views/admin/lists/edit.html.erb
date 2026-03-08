@@ -1,0 +1,15 @@
+<% content_for :page_title do %>
+  <%= t('admin.lists.edit.title') %>
+<% end %>
+
+<% content_for :breadcrumb do %>
+  <%= link_to t('admin.sidebar.dashboard'), admin_root_path %> <span>></span>
+  <%= link_to t('admin.sidebar.boards'), admin_boards_path %> <span>></span>
+  <%= link_to @board.name, admin_board_path(@board) %> <span>></span>
+  <%= link_to t('admin.sidebar.lists'), admin_board_lists_path(@board) %> <span>></span>
+  <strong><%= @list.name %></strong>
+<% end %>
+
+<div class="admin-container">
+  <%= render 'form' %>
+</div>

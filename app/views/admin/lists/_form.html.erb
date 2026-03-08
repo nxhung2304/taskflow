@@ -1,0 +1,45 @@
+<% if @board %>
+  <% form_path = admin_board_lists_path(@board) %>
+  <% cancel_path = admin_board_lists_path(@board) %>
+<% else %>
+  <% form_path = admin_lists_path %>
+  <% cancel_path = admin_lists_path %>
+<% end %>
+
+<%= form_with(model: [:admin, @list], url: form_path, local: true) do |form| %>
+  <% if @list.errors.any? %>
+    <div class="alert alert-danger">
+      <span class="alert-icon">!</span>
+      <div>
+        <strong><%= pluralize(@list.errors.count, "error") %> prevented this list from being saved:</strong>
+        <ul style="margin-top: 10px;">
+          <% @list.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+      <button type="button" class="alert-close">&times;</button>
+    </div>
+  <% end %>
+
+  <div class="form-card">
+    <% unless @board %>
+      <div class="form-group">
+        <%= form.label :board_id, t('admin.lists.form.board_required') %>
+        <%= form.select :board_id, @boards.map { |b| [b.name, b.id] }, { prompt: t('admin.lists.form.select_board') }, class: "form-control", required: true %>
+        <small class="form-help-text"><%= t('admin.lists.form.board_help') %></small>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= form.label :name, t('admin.lists.form.name_required') %>
+      <%= form.text_field :name, class: "form-control", required: true, maxlength: 255, placeholder: t('admin.lists.form.name_placeholder') %>
+      <small class="form-help-text"><%= t('admin.lists.form.name_help') %></small>
+    </div>
+
+    <div class="form-actions">
+      <%= form.submit class: "btn btn-primary" %>
+      <%= link_to t('admin.lists.form.cancel'), cancel_path, class: "btn btn-secondary" %>
+    </div>
+  </div>
+<% end %>
