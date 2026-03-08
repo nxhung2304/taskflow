@@ -12,10 +12,20 @@ class Admin::ApplicationController < ApplicationController
   end
 
   def set_locale
-    if params[:locale].present? && I18n.available_locales.include?(params[:locale].to_sym)
-      I18n.locale = params[:locale]
-    else
-      I18n.locale = I18n.default_locale
-    end
+    locale = resolve_locale
+    session[:admin_locale] = locale
+    I18n.locale = locale
+  end
+
+  private
+
+  def resolve_locale
+    requested = params[:locale]&.to_sym
+    return requested if I18n.available_locales.include?(requested)
+
+    stored = session[:admin_locale]&.to_sym
+    return stored if I18n.available_locales.include?(stored)
+
+    I18n.default_locale
   end
 end

@@ -738,8 +738,6 @@ form.d-inline button {
 .form-actions {
   display: flex;
   gap: 12px;
-  margin-top: 32px;
-  padding-top: 24px;
   border-top: 1px solid #e0e6ed;
 }
 

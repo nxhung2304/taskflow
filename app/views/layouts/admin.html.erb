@@ -107,8 +107,10 @@
         <div class="sidebar-language">
           <div class="user-menu-label"><%= t('admin.sidebar.language') %></div>
           <div class="language-options">
-            <%= link_to "English", url_for(locale: :en), class: "lang-option #{'active' if I18n.locale == :en}" %>
-            <%= link_to "Tiếng Việt", url_for(locale: :vi), class: "lang-option #{'active' if I18n.locale == :vi}" %>
+            <%= button_to "English", admin_locale_path(locale: :en), method: :patch,
+                  class: "lang-option #{'active' if I18n.locale == :en}" %>
+            <%= button_to "Tiếng Việt", admin_locale_path(locale: :vi), method: :patch,
+                  class: "lang-option #{'active' if I18n.locale == :vi}" %>
           </div>
         </div>
         <div class="admin-user">
