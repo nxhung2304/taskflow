@@ -948,6 +948,10 @@ textarea.form-control {
   transition: all 0.2s ease;
 }
 
+.list-group-item > div {
+  width: 100%;
+}
+
 .list-group-item:last-child {
   margin-bottom: 0;
 }

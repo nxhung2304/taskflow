@@ -49,6 +49,46 @@ RSpec.describe "Admin::Lists", type: :request do
         expect(response.body).to include("Done")
       end
     end
+
+    describe "POST /admin/lists (global)" do
+      context "with valid params" do
+        it "creates a list and redirects to index" do
+          expect {
+            post admin_lists_path, params: {
+              list: {
+                name: "Global List",
+                board_id: board.id
+              }
+            }
+          }.to change(List, :count).by(1)
+
+          expect(response).to redirect_to(admin_lists_path)
+        end
+      end
+    end
+
+    describe "PATCH /admin/lists/:id (global)" do
+      it "updates the list and redirects to index" do
+        patch admin_list_path(list), params: {
+          list: {
+            name: "Updated Global List"
+          }
+        }
+        expect(response).to redirect_to(admin_lists_path)
+        expect(list.reload.name).to eq("Updated Global List")
+      end
+    end
+
+    describe "DELETE /admin/lists/:id (global)" do
+      it "deletes the list and redirects to index" do
+        list_id = list.id
+        expect {
+          delete admin_list_path(list)
+        }.to change(List, :count).by(-1)
+
+        expect(response).to redirect_to(admin_lists_path)
+      end
+    end
   end
 
   describe "GET /admin/boards/:board_id/lists" do

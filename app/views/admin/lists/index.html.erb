@@ -61,7 +61,8 @@
         <% @lists.each do |list| %>
           <tr>
             <td>
-              <strong><%= list.name %></strong>
+              <% show_path = @board ? admin_board_list_path(@board, list) : admin_board_list_path(list.board, list) %>
+              <%= link_to list.name, show_path, class: "list-name-link" %>
             </td>
             <% unless @board %>
               <td>
@@ -77,11 +78,9 @@
             <td><small><%= list.created_at.strftime("%b %d, %Y") %></small></td>
             <td style="white-space: nowrap;">
               <% if @board %>
-                <%= link_to t('admin.lists.index.view'), admin_board_list_path(@board, list), class: "btn btn-sm btn-primary" %>
                 <%= link_to t('admin.lists.show.edit'), edit_admin_board_list_path(@board, list), class: "btn btn-sm btn-warning" %>
                 <%= button_to t('admin.lists.show.delete'), admin_board_list_path(@board, list), method: :delete, data: { turbo_confirm: t('admin.lists.confirm_delete', default: "Are you sure?") }, class: "btn btn-sm btn-danger", form_class: "d-inline" %>
               <% else %>
-                <%= link_to t('admin.lists.index.view'), admin_board_list_path(list.board, list), class: "btn btn-sm btn-primary" %>
                 <%= link_to t('admin.lists.show.edit'), edit_admin_board_list_path(list.board, list), class: "btn btn-sm btn-warning" %>
                 <%= button_to t('admin.lists.show.delete'), admin_board_list_path(list.board, list), method: :delete, data: { turbo_confirm: t('admin.lists.confirm_delete', default: "Are you sure?") }, class: "btn btn-sm btn-danger", form_class: "d-inline" %>
               <% end %>
@@ -118,5 +117,20 @@
 <style>
   .text-muted {
     color: #95a5a6;
+  }
+
+  .list-name-link {
+    color: #2c3e50 !important;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+
+  .list-name-link:hover {
+    color: #3498db !important;
+  }
+
+  .list-name-link:visited {
+    color: #2c3e50 !important;
   }
 </style>

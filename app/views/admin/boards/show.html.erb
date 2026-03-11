@@ -9,6 +9,7 @@
 <% end %>
 
 <% content_for :header_actions do %>
+  <%= link_to t('admin.lists.index.title'), admin_board_lists_path(@board), class: "btn btn-primary" %>
   <%= link_to t('admin.boards.show.edit'), edit_admin_board_path(@board), class: "btn btn-warning" %>
   <%= button_to t('admin.boards.show.delete'), admin_board_path(@board), method: :delete, data: { turbo_confirm: t('admin.boards.confirm_delete', default: "Are you sure?") }, class: "btn btn-danger", form_class: "d-inline" %>
 <% end %>
@@ -77,26 +78,37 @@
     </div>
   </div>
 
-  <% if @board.lists.any? %>
-    <div class="lists-section">
-      <h3>📝 <%= t('admin.boards.show.lists') %> (<%= @board.lists.count %>)</h3>
+  <div class="lists-section" style="margin-top: 32px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+      <h3 style="margin: 0;">📝 <%= t('admin.boards.show.lists') %> (<%= @board.lists.count %>)</h3>
+      <%= link_to t('admin.lists.index.add_new'), new_admin_board_list_path(@board), class: "btn btn-primary btn-sm" %>
+    </div>
+
+    <% if @board.lists.any? %>
       <ul class="list-group">
         <% @board.lists.each do |list| %>
           <li class="list-group-item">
-            <div>
-              <strong><%= list.name %></strong>
+            <div style="display: flex; justify-content: space-between; align-items: center;width=100%">
+              <div>
+                <%= link_to list.name, admin_board_list_path(@board, list), class: "list-name-link" %>
+                <span class="badge" style="background-color: #3498db; color: white; margin-left: 8px;">
+                  <%= list.tasks_count %> <%= t('admin.sidebar.tasks').downcase.pluralize(list.tasks_count) %>
+                </span>
+              </div>
+              <div style="display: flex; gap: 8px;">
+                <%= link_to t('admin.boards.show.edit'), edit_admin_board_list_path(@board, list), class: "btn btn-warning btn-xs" %>
+                <%= button_to t('admin.boards.show.delete'), admin_board_list_path(@board, list), method: :delete, data: { turbo_confirm: t('admin.lists.confirm_delete') }, class: "btn btn-danger btn-xs", form_class: "d-inline" %>
+              </div>
             </div>
-            <span class="badge" style="background-color: #3498db; color: white;">
-              <%= list.tasks_count %> <%= t('admin.sidebar.tasks').downcase.pluralize(list.tasks_count) %>
-            </span>
           </li>
         <% end %>
       </ul>
-    </div>
-  <% else %>
-    <div style="text-align: center; padding: 40px 20px; background: white; border-radius: 6px; margin-top: 32px;">
-      <div style="font-size: 40px; margin-bottom: 12px;">📭</div>
-      <p style="color: #7f8c8d;"><%= t('admin.boards.show.no_lists') %></p>
-    </div>
-  <% end %>
+    <% else %>
+      <div style="text-align: center; padding: 40px 20px; background: white; border-radius: 6px;">
+        <div style="font-size: 40px; margin-bottom: 12px;">📭</div>
+        <p style="color: #7f8c8d;"><%= t('admin.boards.show.no_lists') %></p>
+        <p><%= link_to t('admin.lists.index.create_list'), new_admin_board_list_path(@board), class: "btn btn-primary btn-sm" %></p>
+      </div>
+    <% end %>
+  </div>
 </div>

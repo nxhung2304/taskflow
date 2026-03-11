@@ -1,6 +1,11 @@
 vi:
   application:
     name: Taskflow
+  helpers:
+    submit:
+      create: Tạo %{model}
+      update: Cập nhật %{model}
+      submit: Lưu %{model}
   activerecord:
     models:
       board: Bảng
@@ -145,4 +150,5 @@ vi:
         name_help: Một tên mô tả cho danh sách/cột này
         select_board: Chọn một bảng
         board_help: Chọn bảng mà danh sách này thuộc về
+        save: Lưu
         cancel: Hủy

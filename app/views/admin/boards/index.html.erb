@@ -47,7 +47,7 @@
         <% @boards.each do |board| %>
           <tr>
             <td>
-              <strong><%= board.name %></strong>
+              <%= link_to board.name, class: "list-name-link" %>
             </td>
             <td><%= board.user.name %></td>
             <td>

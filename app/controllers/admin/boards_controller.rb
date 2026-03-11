@@ -1,6 +1,5 @@
 class Admin::BoardsController < Admin::ApplicationController
-  layout "admin"
-  before_action :set_board, only: %i[show edit update destroy]
+  load_and_authorize_resource :board
   before_action :set_users, only: %i[new create edit update]
 
   def index
@@ -48,10 +47,6 @@ class Admin::BoardsController < Admin::ApplicationController
 
   def board_params
     params.require(:board).permit(:name, :description, :color, :visibility, :archived_at, :user_id)
-  end
-
-  def set_board
-    @board = Board.find(params[:id])
   end
 
   def set_users

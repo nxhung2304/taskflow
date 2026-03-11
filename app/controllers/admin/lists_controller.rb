@@ -1,11 +1,10 @@
 class Admin::ListsController < Admin::ApplicationController
-  layout "admin"
-
   LISTS_PER_PAGE = 20
 
+  load_and_authorize_resource :list
   before_action :set_board, only: %i[index show new create edit update destroy]
-  before_action :set_list, only: %i[show edit update destroy]
-  before_action :set_boards_for_form, only: %i[new create]
+  before_action :set_board_from_list, only: %i[show edit update destroy]
+  before_action :set_boards_for_form, only: %i[new create edit update]
 
   def index
     @lists = board_specific? ? fetch_board_lists : fetch_all_lists
@@ -55,9 +54,8 @@ class Admin::ListsController < Admin::ApplicationController
     @board = Board.find(params[:board_id]) if params[:board_id].present?
   end
 
-  def set_list
-    @list = List.find(params[:id])
-    @board = @list.board
+  def set_board_from_list
+    @board = @list.board if @list
   end
 
   def set_boards_for_form

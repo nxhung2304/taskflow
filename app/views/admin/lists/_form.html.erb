@@ -1,8 +1,8 @@
 <% if @board %>
-  <% form_path = admin_board_lists_path(@board) %>
+  <% form_path = @list.persisted? ? admin_board_list_path(@board, @list) : admin_board_lists_path(@board) %>
   <% cancel_path = admin_board_lists_path(@board) %>
 <% else %>
-  <% form_path = admin_lists_path %>
+  <% form_path = @list.persisted? ? admin_list_path(@list) : admin_lists_path %>
   <% cancel_path = admin_lists_path %>
 <% end %>
 
@@ -38,7 +38,7 @@
     </div>
 
     <div class="form-actions">
-      <%= form.submit class: "btn btn-primary" %>
+      <%= form.submit t('admin.lists.form.save'), class: "btn btn-primary" %>
       <%= link_to t('admin.lists.form.cancel'), cancel_path, class: "btn btn-secondary" %>
     </div>
   </div>

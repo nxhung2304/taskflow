@@ -7,5 +7,5 @@ namespace :admin do
     resources :lists
   end
 
-  resources :lists, only: [ :index, :new, :create ]
+  resources :lists, only: [ :index, :new, :create, :edit, :update, :destroy ]
 end
