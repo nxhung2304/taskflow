@@ -1,0 +1,45 @@
+= form_with model: [:admin, @list, @task], local: true, class: "needs-validation" do |f|
+  - if @task.errors.any?
+    .alert.alert-danger.mb-4
+      %h4= "#{pluralize(@task.errors.count, 'error')} prohibited this task from being saved:"
+      %ul
+        - @task.errors.full_messages.each do |message|
+          %li= message
+
+  .mb-3
+    = f.label :title, "Title"
+    = f.text_field :title, class: "form-control", required: true, placeholder: "Enter task title"
+
+  .mb-3
+    = f.label :description, "Description"
+    = f.text_area :description, class: "form-control", rows: 4, placeholder: "Enter task description (optional)"
+
+  .row
+    .col-md-6.mb-3
+      = f.label :status, "Status"
+      = f.select :status, Task.statuses.keys.map { |k| [k.humanize, k] }, { include_blank: false }, class: "form-select"
+
+    .col-md-6.mb-3
+      = f.label :priority, "Priority"
+      = f.select :priority, Task.priorities.keys.map { |k| [k.humanize, k] }, { include_blank: false }, class: "form-select"
+
+  .row
+    .col-md-6.mb-3
+      = f.label :deadline, "Deadline"
+      = f.datetime_local_field :deadline, class: "form-control"
+
+    .col-md-6.mb-3
+      = f.label :assignee_id, "Assigned To"
+      = f.select :assignee_id, @users.map { |name, id| [name, id] }, { include_blank: "Unassigned" }, class: "form-select"
+
+  .mb-3
+    = f.label :list_id, "List" unless @list
+    - if @list
+      %input.form-control{ type: "hidden", value: @list.id, name: "admin_list_task[list_id]" }
+      %p.form-control-plaintext= @list.name
+    - else
+      = f.select :list_id, @lists.map { |l| [l.name, l.id] }, { include_blank: "Select a list" }, class: "form-select", required: true
+
+  .d-flex.gap-2
+    = f.submit "Save", class: "btn btn-primary"
+    = link_to "Cancel", @list ? admin_list_tasks_path(@list) : admin_tasks_path, class: "btn btn-secondary"

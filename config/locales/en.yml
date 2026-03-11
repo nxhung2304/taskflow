@@ -175,3 +175,32 @@ en:
         select_board: Select a board
         board_help: Choose which board this list belongs to
         cancel: Cancel
+    tasks:
+      messages:
+        created: Task created successfully
+        updated: Task updated successfully
+        destroyed: Task deleted successfully
+      index: Tasks
+      show: Task Details
+      new: New Task
+      edit: Edit Task
+      status:
+        todo: To Do
+        in_progress: In Progress
+        completed: Completed
+      priority:
+        low: Low
+        medium: Medium
+        high: High
+      labels:
+        title: Title
+        description: Description
+        status: Status
+        priority: Priority
+        deadline: Deadline
+        assignee: Assigned To
+        comments: Comments
+      filters:
+        all_statuses: All Statuses
+        all_priorities: All Priorities
+        all_assignees: All Assignees

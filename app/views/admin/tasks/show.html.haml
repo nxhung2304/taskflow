@@ -1,0 +1,92 @@
+.container-fluid.mt-4
+  .row.mb-4
+    .col-md-8
+      %h1= @task.title
+    .col-md-4.text-end
+      = link_to "Edit", edit_admin_list_task_path(@list, @task), class: "btn btn-secondary me-2"
+      = link_to "Delete", admin_list_task_path(@list, @task), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger"
+
+  .breadcrumb.mb-4
+    %span.breadcrumb-item
+      = link_to "Home", admin_root_path
+    %span.breadcrumb-item
+      = link_to @list.board.name, admin_board_path(@list.board)
+    %span.breadcrumb-item
+      = link_to @list.name, admin_list_path(@list)
+    %span.breadcrumb-item
+      = link_to "Tasks", admin_list_tasks_path(@list)
+    %span.breadcrumb-item.active= @task.title
+
+  .row
+    .col-md-8
+      .card.mb-4
+        .card-header.bg-light
+          %h5.mb-0 Task Details
+        .card-body
+          .row.mb-3
+            .col-md-6
+              %strong Status:
+              %br
+              %span.badge{ class: status_badge_class(@task.status) }
+                = Task.statuses.key(@task.status).humanize
+            .col-md-6
+              %strong Priority:
+              %br
+              %span.badge.bg-secondary
+                = Task.priorities.key(@task.priority).humanize
+
+          .row.mb-3
+            .col-md-6
+              %strong Assignee:
+              %br
+              = @task.assignee&.name || "Unassigned"
+            .col-md-6
+              %strong Deadline:
+              %br
+              - if @task.deadline
+                = @task.deadline.strftime("%Y-%m-%d")
+              - else
+                %span.text-muted No deadline
+
+          - if @task.description.present?
+            .mb-3
+              %strong Description:
+              %br
+              %p= @task.description
+
+      .card
+        .card-header.bg-light
+          %h5.mb-0 Comments (#{@task.comments_count})
+        .card-body
+          - if @task.comments.any?
+            - @task.comments.each do |comment|
+              .mb-3.pb-3.border-bottom
+                %strong= comment.user.name
+                %br
+                %small.text-muted= comment.created_at.strftime("%Y-%m-%d %H:%M")
+                %br
+                %p= comment.content
+          - else
+            %p.text-muted No comments yet
+
+    .col-md-4
+      .card
+        .card-header.bg-light
+          %h5.mb-0 Metadata
+        .card-body
+          .mb-3
+            %strong List:
+            %br
+            = @list.name
+          .mb-3
+            %strong Board:
+            %br
+            = @list.board.name
+          .mb-3
+            %strong Created:
+            %br
+            = @task.created_at.strftime("%Y-%m-%d %H:%M")
+          .mb-3
+            %strong Updated:
+            %br
+            = @task.updated_at.strftime("%Y-%m-%d %H:%M")
