@@ -11,4 +11,8 @@ module Admin::TasksHelper
       "bg-secondary"
     end
   end
+
+  def list_specific?
+    @list.present?
+  end
 end
