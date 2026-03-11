@@ -1,0 +1,132 @@
+<div class="container-fluid mt-4">
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <h1 class="mb-0">Tasks</h1>
+    </div>
+    <div class="col-md-4 text-end">
+      <% if @list %>
+        <%= link_to "New Task", new_admin_list_task_path(@list), class: "btn btn-primary" %>
+      <% end %>
+    </div>
+  </div>
+
+  <% if @list %>
+    <nav aria-label="breadcrumb" class="mb-4">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <%= link_to "Home", admin_root_path %>
+        </li>
+        <li class="breadcrumb-item">
+          <%= link_to @list.board.name, admin_board_path(@list.board) %>
+        </li>
+        <li class="breadcrumb-item">
+          <%= link_to @list.name, admin_list_path(@list) %>
+        </li>
+        <li class="breadcrumb-item active">Tasks</li>
+      </ol>
+    </nav>
+  <% end %>
+
+  <div class="card">
+    <div class="card-header bg-light">
+      <div class="row g-2">
+        <div class="col-md-3">
+          <%= form_with url: list_specific? ? admin_list_tasks_path(@list) : admin_tasks_path, method: :get, local: true, class: "d-inline-block me-2" do |f| %>
+            <%= f.text_field :search, placeholder: "Search by title...", value: params[:search], class: "form-control form-control-sm" %>
+          <% end %>
+        </div>
+        <div class="col-md-2">
+          <%= form_with url: list_specific? ? admin_list_tasks_path(@list) : admin_tasks_path, method: :get, local: true, class: "d-inline-block" do |f| %>
+            <%= f.select :status, options_for_select(Task.statuses.keys, params[:status]), { include_blank: "All Statuses" }, class: "form-select form-select-sm" %>
+          <% end %>
+        </div>
+        <div class="col-md-2">
+          <%= form_with url: list_specific? ? admin_list_tasks_path(@list) : admin_tasks_path, method: :get, local: true, class: "d-inline-block" do |f| %>
+            <%= f.select :priority, options_for_select(Task.priorities.keys, params[:priority]), { include_blank: "All Priorities" }, class: "form-select form-select-sm" %>
+          <% end %>
+        </div>
+        <div class="col-md-2">
+          <%= form_with url: list_specific? ? admin_list_tasks_path(@list) : admin_tasks_path, method: :get, local: true, class: "d-inline-block" do |f| %>
+            <%= f.select :assignee_id, options_for_select(@users.map { |name, id| [name, id] }, params[:assignee_id]), { include_blank: "All Assignees" }, class: "form-select form-select-sm" %>
+          <% end %>
+        </div>
+        <% unless @list %>
+          <div class="col-md-2">
+            <%= form_with url: admin_tasks_path, method: :get, local: true, class: "d-inline-block" do |f| %>
+              <%= f.select :filter_list_id, options_for_select(@lists.map { |l| [l.name, l.id] }, params[:filter_list_id]), { include_blank: "All Lists" }, class: "form-select form-select-sm" %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-hover mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Priority</th>
+            <th>Assignee</th>
+            <th>Deadline</th>
+            <th>Comments</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if @tasks.any? %>
+            <% @tasks.each do |task| %>
+              <tr>
+                <td><%= task.title %></td>
+                <td>
+                  <span class="badge <%= status_badge_class(task.status) %>">
+                    <%= Task.statuses.key(task.status).humanize %>
+                  </span>
+                </td>
+                <td>
+                  <span class="badge bg-secondary">
+                    <%= Task.priorities.key(task.priority).humanize %>
+                  </span>
+                </td>
+                <td><%= task.assignee&.name || "Unassigned" %></td>
+                <td>
+                  <% if task.deadline %>
+                    <%= task.deadline.strftime("%Y-%m-%d") %>
+                  <% else %>
+                    <span class="text-muted">No deadline</span>
+                  <% end %>
+                </td>
+                <td>
+                  <span class="badge bg-info">
+                    <%= task.comments_count %>
+                  </span>
+                </td>
+                <td>
+                  <div class="btn-group btn-group-sm" role="group">
+                    <% if @list %>
+                      <%= link_to "View", admin_list_task_path(@list, task), class: "btn btn-outline-primary" %>
+                      <%= link_to "Edit", edit_admin_list_task_path(@list, task), class: "btn btn-outline-secondary" %>
+                      <%= link_to "Delete", admin_list_task_path(@list, task), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-outline-danger" %>
+                    <% else %>
+                      <%= link_to "View", admin_task_path(task), class: "btn btn-outline-primary" %>
+                      <%= link_to "Edit", edit_admin_task_path(task), class: "btn btn-outline-secondary" %>
+                      <%= link_to "Delete", admin_task_path(task), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-outline-danger" %>
+                    <% end %>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr>
+              <td colspan="7" class="text-center text-muted">No tasks found</td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <%= paginate @tasks, theme: "bootstrap-5" %>
+  </div>
+</div>

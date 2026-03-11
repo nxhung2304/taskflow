@@ -1,0 +1,60 @@
+<%= form_with model: [:admin, @list, @task], local: true, class: "needs-validation" do |f| %>
+  <% if @task.errors.any? %>
+    <div class="alert alert-danger mb-4">
+      <h4><%= pluralize(@task.errors.count, 'error') %> prohibited this task from being saved:</h4>
+      <ul>
+        <% @task.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= f.label :title, "Title" %>
+    <%= f.text_field :title, class: "form-control", required: true, placeholder: "Enter task title" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :description, "Description" %>
+    <%= f.text_area :description, class: "form-control", rows: 4, placeholder: "Enter task description (optional)" %>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <%= f.label :status, "Status" %>
+      <%= f.select :status, Task.statuses.keys.map { |k| [k.humanize, k] }, { include_blank: false }, class: "form-select" %>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <%= f.label :priority, "Priority" %>
+      <%= f.select :priority, Task.priorities.keys.map { |k| [k.humanize, k] }, { include_blank: false }, class: "form-select" %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <%= f.label :deadline, "Deadline" %>
+      <%= f.datetime_local_field :deadline, class: "form-control" %>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <%= f.label :assignee_id, "Assigned To" %>
+      <%= f.select :assignee_id, @users.map { |name, id| [name, id] }, { include_blank: "Unassigned" }, class: "form-select" %>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <% if @list %>
+      <p class="form-control-plaintext"><strong>List:</strong> <%= @list.name %></p>
+    <% else %>
+      <%= f.label :list_id, "List" %>
+      <%= f.select :list_id, @lists.map { |l| [l.name, l.id] }, { include_blank: "Select a list" }, class: "form-select", required: true %>
+    <% end %>
+  </div>
+
+  <div class="d-flex gap-2">
+    <%= f.submit "Save", class: "btn btn-primary" %>
+    <%= link_to "Cancel", @list ? admin_list_tasks_path(@list) : admin_tasks_path, class: "btn btn-secondary" %>
+  </div>
+<% end %>
