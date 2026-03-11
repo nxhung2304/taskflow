@@ -7,10 +7,14 @@ feature "Admin Tasks CRUD", :js do
   let(:list) { create(:list, board: board) }
 
   before do
-    visit new_admin_user_session_path
-    fill_in "Email", with: admin_user.email
-    fill_in "Password", with: admin_user.password
-    click_button "Log in"
+    # Start the Rails server if not already running
+    visit "http://localhost:3000/admin/admin_users/sign_in"
+
+    fill_in "admin_user_email", with: admin_user.email
+    fill_in "admin_user_password", with: admin_user.password
+
+    # Find and click the submit button
+    find('input[type="submit"]').click
   end
 
   scenario "Admin can view all tasks from dashboard" do

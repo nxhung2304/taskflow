@@ -2,10 +2,10 @@ require "capybara/rspec"
 require "selenium/webdriver"
 
 Capybara.configure do |config|
-  config.test_app = ->(rack_app) { rack_app }
   config.default_driver = :selenium_chrome
   config.javascript_driver = :selenium_chrome
   config.default_max_wait_time = 10
+  config.app_host = "http://localhost:3000"
 
   # Configure Selenium with Chrome options
   register_chrome_driver
@@ -28,10 +28,18 @@ def register_chrome_driver
   end
 end
 
-# Configure RSpec for feature tests
+# Configure DatabaseCleaner for feature tests
+require "database_cleaner/active_record"
+
+DatabaseCleaner.allow_remote_database_url = true
+
 RSpec.configure do |config|
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
   config.before(:each, type: :feature) do
-    # Ensure database is clean
+    DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.start
   end
 
