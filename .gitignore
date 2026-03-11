@@ -35,3 +35,6 @@
 
 coverage/
 swagger/
+
+# Claude Code
+specs/comments/

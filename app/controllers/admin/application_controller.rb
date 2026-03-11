@@ -1,4 +1,6 @@
 class Admin::ApplicationController < ApplicationController
+  layout "admin"
+
   before_action :set_locale
 
   rescue_from CanCan::AccessDenied do |exception|
@@ -8,7 +10,7 @@ class Admin::ApplicationController < ApplicationController
   protected
 
   def current_ability
-    @current_ability ||= Ability.new(nil)
+    @current_ability ||= Ability.new(current_admin_user)
   end
 
   def set_locale

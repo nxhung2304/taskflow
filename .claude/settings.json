@@ -1,5 +1,6 @@
 {
   "enabledPlugins": {
+    "cc-auto-workflow@cc-auto-workflow": true,
     "frontend-design@claude-plugins-official": true
   }
 }
