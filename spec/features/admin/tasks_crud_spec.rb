@@ -1,20 +1,16 @@
 require "rails_helper"
 
-feature "Admin Tasks CRUD", :js do
-  let(:admin_user) { create(:admin_user) }
+feature "Admin Tasks CRUD", :js, type: :feature do
+  let(:admin_user) { create(:admin_user, email: "admin@example.com", password: "password123") }
   let(:user) { create(:user) }
   let(:board) { create(:board, user: user) }
   let(:list) { create(:list, board: board) }
 
   before do
-    # Start the Rails server if not already running
-    visit "http://localhost:3000/admin/admin_users/sign_in"
-
-    fill_in "admin_user_email", with: admin_user.email
-    fill_in "admin_user_password", with: admin_user.password
-
-    # Find and click the submit button
-    find('input[type="submit"]').click
+    visit admin_root_path
+    fill_in "admin_user[email]", with: admin_user.email
+    fill_in "admin_user[password]", with: "password123"
+    click_button "Log in"
   end
 
   scenario "Admin can view all tasks from dashboard" do
@@ -22,11 +18,13 @@ feature "Admin Tasks CRUD", :js do
     create(:task, list: list, title: "Test Task 2")
 
     visit admin_root_path
+
     expect(page).to have_content("Total Tasks")
     expect(page).to have_link("View All", href: admin_tasks_path)
 
     click_link "View All", match: :first
     expect(page).to have_current_path(admin_tasks_path)
+
     expect(page).to have_content("Test Task 1")
     expect(page).to have_content("Test Task 2")
   end
@@ -60,8 +58,8 @@ feature "Admin Tasks CRUD", :js do
 
     fill_in "Title", with: "New Task Title"
     fill_in "Description", with: "Task description"
-    select "in_progress", from: "Status"
-    select "high", from: "Priority"
+    select "In Progress", from: "Status"
+    select "High", from: "Priority"
     click_button "Save"
 
     expect(page).to have_content("Task created successfully")
@@ -93,8 +91,8 @@ feature "Admin Tasks CRUD", :js do
     expect(page).to have_current_path(edit_admin_list_task_path(list, task))
 
     fill_in "Title", with: "Updated Title"
-    select "completed", from: "Status"
-    select "medium", from: "Priority"
+    select "Completed", from: "Status"
+    select "Medium", from: "Priority"
     click_button "Save"
 
     expect(page).to have_content("Task updated successfully")
@@ -106,7 +104,8 @@ feature "Admin Tasks CRUD", :js do
     create(:task, list: list, title: "In Progress Task", status: :in_progress)
 
     visit admin_list_tasks_path(list)
-    select "todo", from: "Status"
+    select "To Do", from: "Status"
+    click_button "Search"
 
     expect(page).to have_content("Todo Task")
     expect(page).not_to have_content("In Progress Task")
@@ -117,7 +116,8 @@ feature "Admin Tasks CRUD", :js do
     create(:task, list: list, title: "Low Priority", priority: :low)
 
     visit admin_list_tasks_path(list)
-    select "high", from: "Priority"
+    select "High", from: "Priority"
+    click_button "Search"
 
     expect(page).to have_content("High Priority")
     expect(page).not_to have_content("Low Priority")
@@ -129,7 +129,8 @@ feature "Admin Tasks CRUD", :js do
     create(:task, list: list, title: "Unassigned Task", assignee: nil)
 
     visit admin_list_tasks_path(list)
-    select assignee.name, from: "Assigned To"
+    select assignee.name, from: "Assignee"
+    click_button "Search"
 
     expect(page).to have_content("Assigned Task")
     expect(page).not_to have_content("Unassigned Task")
@@ -163,8 +164,8 @@ feature "Admin Tasks CRUD", :js do
     create(:task, list: list, title: "JavaScript Task")
 
     visit admin_list_tasks_path(list)
-    fill_in "Search by title...", with: "Ruby"
-    find("input[placeholder='Search by title...']").native.send_keys(:enter)
+    fill_in "Search", with: "Ruby"
+    click_button "Search"
 
     expect(page).to have_content("Ruby Task")
     expect(page).not_to have_content("JavaScript Task")

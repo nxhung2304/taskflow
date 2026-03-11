@@ -180,6 +180,7 @@ en:
         created: Task created successfully
         updated: Task updated successfully
         destroyed: Task deleted successfully
+      confirm_delete: "Are you sure you want to delete this task? This action cannot be undone."
       index: Tasks
       show: Task Details
       new: New Task
@@ -200,7 +201,20 @@ en:
         deadline: Deadline
         assignee: Assigned To
         comments: Comments
+        search: Search
+        list: List
+        actions: Actions
       filters:
+        search_placeholder: "Search by title..."
         all_statuses: All Statuses
         all_priorities: All Priorities
         all_assignees: All Assignees
+        all_lists: All Lists
+      index:
+        title: Tasks Management
+        add_new: Add New Task
+        search: Search
+        clear: Clear
+        edit: Edit
+        delete: Delete
+        no_tasks: No tasks found

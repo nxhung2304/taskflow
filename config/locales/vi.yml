@@ -152,3 +152,46 @@ vi:
         board_help: Chọn bảng mà danh sách này thuộc về
         save: Lưu
         cancel: Hủy
+    tasks:
+      messages:
+        created: Nhiệm vụ đã được tạo thành công
+        updated: Nhiệm vụ đã được cập nhật thành công
+        destroyed: Nhiệm vụ đã được xóa thành công
+      confirm_delete: "Bạn có chắc chắn muốn xóa nhiệm vụ này không? Hành động này không thể hoàn tác."
+      index: Nhiệm vụ
+      show: Chi tiết nhiệm vụ
+      new: Nhiệm vụ mới
+      edit: Chỉnh sửa nhiệm vụ
+      status:
+        todo: Cần làm
+        in_progress: Đang thực hiện
+        completed: Hoàn thành
+      priority:
+        low: Thấp
+        medium: Trung bình
+        high: Cao
+      labels:
+        title: Tiêu đề
+        description: Mô tả
+        status: Trạng thái
+        priority: Ưu tiên
+        deadline: Hạn chót
+        assignee: Giao cho
+        comments: Bình luận
+        search: Tìm kiếm
+        list: Danh sách
+        actions: Hành động
+      filters:
+        search_placeholder: "Tìm kiếm theo tiêu đề..."
+        all_statuses: Tất cả trạng thái
+        all_priorities: Tất cả ưu tiên
+        all_assignees: Tất cả người được giao
+        all_lists: Tất cả danh sách
+      index:
+        title: Quản lý nhiệm vụ
+        add_new: Thêm nhiệm vụ mới
+        search: Tìm kiếm
+        clear: Xóa
+        edit: Chỉnh sửa
+        delete: Xóa
+        no_tasks: Không tìm thấy nhiệm vụ nào

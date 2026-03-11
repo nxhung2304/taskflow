@@ -1,31 +1,22 @@
-<div class="container-fluid mt-4">
-  <div class="row mb-4">
-    <div class="col-md-8">
-      <h1><%= @task.title %></h1>
-    </div>
-    <div class="col-md-4 text-end">
-      <%= link_to "Edit", edit_admin_list_task_path(@list, @task), class: "btn btn-secondary me-2" %>
-      <%= link_to "Delete", admin_list_task_path(@list, @task), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger" %>
-    </div>
-  </div>
+<% content_for :page_title do %>
+  <%= @task.title %>
+<% end %>
 
-  <nav aria-label="breadcrumb" class="mb-4">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item">
-        <%= link_to "Home", admin_root_path %>
-      </li>
-      <li class="breadcrumb-item">
-        <%= link_to @list.board.name, admin_board_path(@list.board) %>
-      </li>
-      <li class="breadcrumb-item">
-        <%= link_to @list.name, admin_list_path(@list) %>
-      </li>
-      <li class="breadcrumb-item">
-        <%= link_to "Tasks", admin_list_tasks_path(@list) %>
-      </li>
-      <li class="breadcrumb-item active"><%= @task.title %></li>
-    </ol>
-  </nav>
+<% content_for :breadcrumb do %>
+  <%= link_to t('admin.sidebar.dashboard'), admin_root_path %> <span>></span>
+  <%= link_to t('admin.sidebar.boards'), admin_boards_path %> <span>></span>
+  <%= link_to @list.board.name, admin_board_path(@list.board) %> <span>></span>
+  <%= link_to t('admin.sidebar.lists'), admin_list_path(@list) %> <span>></span>
+  <%= link_to "Tasks", admin_list_tasks_path(@list) %> <span>></span>
+  <strong><%= @task.title %></strong>
+<% end %>
+
+<% content_for :header_actions do %>
+  <%= link_to "Edit", edit_admin_list_task_path(@list, @task), class: "btn btn-secondary me-2" %>
+  <%= link_to "Delete", admin_list_task_path(@list, @task), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger" %>
+<% end %>
+
+<div class="container-fluid mt-4">
 
   <div class="row">
     <div class="col-md-8">
@@ -37,15 +28,19 @@
           <div class="row mb-3">
             <div class="col-md-6">
               <strong>Status:</strong><br>
-              <span class="badge <%= status_badge_class(@task.status) %>">
-                <%= Task.statuses.key(@task.status).humanize %>
-              </span>
+              <% if @task.status.present? %>
+                <span class="badge <%= status_badge_class(@task.status) %>">
+                  <%= @task.status.humanize %>
+                </span>
+              <% end %>
             </div>
             <div class="col-md-6">
               <strong>Priority:</strong><br>
-              <span class="badge bg-secondary">
-                <%= Task.priorities.key(@task.priority).humanize %>
-              </span>
+              <% if @task.priority.present? %>
+                <span class="badge bg-secondary">
+                  <%= @task.priority.humanize %>
+                </span>
+              <% end %>
             </div>
           </div>
 

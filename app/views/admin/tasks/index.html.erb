@@ -1,59 +1,68 @@
-<div class="container-fluid mt-4">
-  <div class="row mb-4">
-    <div class="col-md-8">
-      <h1 class="mb-0">Tasks</h1>
-    </div>
-    <div class="col-md-4 text-end">
-      <% if @list %>
-        <%= link_to "New Task", new_admin_list_task_path(@list), class: "btn btn-primary" %>
-      <% end %>
-    </div>
-  </div>
-
+<% content_for :page_title do %>
   <% if @list %>
-    <nav aria-label="breadcrumb" class="mb-4">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <%= link_to "Home", admin_root_path %>
-        </li>
-        <li class="breadcrumb-item">
-          <%= link_to @list.board.name, admin_board_path(@list.board) %>
-        </li>
-        <li class="breadcrumb-item">
-          <%= link_to @list.name, admin_list_path(@list) %>
-        </li>
-        <li class="breadcrumb-item active">Tasks</li>
-      </ol>
-    </nav>
+    <%= "#{@list.name} - Tasks" %>
+  <% else %>
+    Tasks
   <% end %>
+<% end %>
+
+<% content_for :breadcrumb do %>
+  <%= link_to t('admin.sidebar.dashboard'), admin_root_path %> <span>></span>
+  <% if @list %>
+    <%= link_to t('admin.sidebar.boards'), admin_boards_path %> <span>></span>
+    <%= link_to @list.board.name, admin_board_path(@list.board) %> <span>></span>
+    <%= link_to t('admin.sidebar.lists'), admin_list_tasks_path(@list) %> <span>></span>
+  <% end %>
+  <strong>Tasks</strong>
+<% end %>
+
+<% content_for :header_actions do %>
+  <% if @list %>
+    <%= link_to t('admin.tasks.index.add_new'), new_admin_list_task_path(@list), class: "btn btn-primary" %>
+  <% elsif @lists.any? %>
+    <%= link_to t('admin.tasks.index.add_new'), new_admin_list_path, class: "btn btn-primary" %>
+  <% end %>
+<% end %>
+
+<div class="container-fluid mt-4">
 
   <div class="card">
     <div class="card-header bg-light">
-      <div class="row g-2">
-        <div class="col-md-3">
-          <%= form_with url: list_specific? ? admin_list_tasks_path(@list) : admin_tasks_path, method: :get, local: true, class: "d-inline-block me-2" do |f| %>
-            <%= f.text_field :search, placeholder: "Search by title...", value: params[:search], class: "form-control form-control-sm" %>
-          <% end %>
-        </div>
-        <div class="col-md-2">
-          <%= form_with url: list_specific? ? admin_list_tasks_path(@list) : admin_tasks_path, method: :get, local: true, class: "d-inline-block" do |f| %>
-            <%= f.select :status, options_for_select(Task.statuses.keys, params[:status]), { include_blank: "All Statuses" }, class: "form-select form-select-sm" %>
-          <% end %>
-        </div>
-        <div class="col-md-2">
-          <%= form_with url: list_specific? ? admin_list_tasks_path(@list) : admin_tasks_path, method: :get, local: true, class: "d-inline-block" do |f| %>
-            <%= f.select :priority, options_for_select(Task.priorities.keys, params[:priority]), { include_blank: "All Priorities" }, class: "form-select form-select-sm" %>
-          <% end %>
-        </div>
-        <div class="col-md-2">
-          <%= form_with url: list_specific? ? admin_list_tasks_path(@list) : admin_tasks_path, method: :get, local: true, class: "d-inline-block" do |f| %>
-            <%= f.select :assignee_id, options_for_select(@users.map { |name, id| [name, id] }, params[:assignee_id]), { include_blank: "All Assignees" }, class: "form-select form-select-sm" %>
-          <% end %>
-        </div>
-        <% unless @list %>
-          <div class="col-md-2">
-            <%= form_with url: admin_tasks_path, method: :get, local: true, class: "d-inline-block" do |f| %>
-              <%= f.select :filter_list_id, options_for_select(@lists.map { |l| [l.name, l.id] }, params[:filter_list_id]), { include_blank: "All Lists" }, class: "form-select form-select-sm" %>
+      <div class="search-filter-section">
+        <%= form_with url: list_specific? ? admin_list_tasks_path(@list) : admin_tasks_path, method: :get, local: true, class: "search-form" do |f| %>
+          <!-- Search Row -->
+          <div class="search-inputs search-row">
+            <div class="form-group search-field">
+              <%= f.label :search, t('admin.tasks.labels.search') %>
+              <%= f.text_field :search, placeholder: t('admin.tasks.filters.search_placeholder'), value: params[:search], class: "form-control" %>
+            </div>
+            <div class="form-actions">
+              <%= f.submit t('admin.tasks.index.search'), class: "btn btn-primary" %>
+              <% if params[:search].present? || params[:status].present? || params[:priority].present? || params[:assignee_id].present? || params[:filter_list_id].present? %>
+                <%= link_to t('admin.tasks.index.clear'), list_specific? ? admin_list_tasks_path(@list) : admin_tasks_path, class: "btn btn-secondary" %>
+              <% end %>
+            </div>
+          </div>
+
+          <!-- Filter Row -->
+          <div class="search-inputs filter-row">
+            <div class="form-group">
+              <%= f.label :status, t('admin.tasks.labels.status') %>
+              <%= f.select :status, Task.statuses.keys.map { |k| [t("admin.tasks.status.#{k}"), k] }, { include_blank: t('admin.tasks.filters.all_statuses') }, class: "form-select" %>
+            </div>
+            <div class="form-group">
+              <%= f.label :priority, t('admin.tasks.labels.priority') %>
+              <%= f.select :priority, Task.priorities.keys.map { |k| [t("admin.tasks.priority.#{k}"), k] }, { include_blank: t('admin.tasks.filters.all_priorities') }, class: "form-select" %>
+            </div>
+            <div class="form-group">
+              <%= f.label :assignee_id, t('admin.tasks.labels.assignee') %>
+              <%= f.select :assignee_id, options_for_select(@users.map { |name, id| [name, id] }, params[:assignee_id]), { include_blank: t('admin.tasks.filters.all_assignees') }, class: "form-select" %>
+            </div>
+            <% unless @list %>
+              <div class="form-group">
+                <%= f.label :filter_list_id, t('admin.tasks.labels.list') %>
+                <%= f.select :filter_list_id, options_for_select(@lists.map { |l| [l.name, l.id] }, params[:filter_list_id]), { include_blank: t('admin.tasks.filters.all_lists') }, class: "form-select" %>
+              </div>
             <% end %>
           </div>
         <% end %>
@@ -64,29 +73,35 @@
       <table class="table table-hover mb-0">
         <thead class="table-light">
           <tr>
-            <th>Title</th>
-            <th>Status</th>
-            <th>Priority</th>
-            <th>Assignee</th>
-            <th>Deadline</th>
-            <th>Comments</th>
-            <th>Actions</th>
+            <th><%= t('admin.tasks.labels.title') %></th>
+            <th><%= t('admin.tasks.labels.status') %></th>
+            <th><%= t('admin.tasks.labels.priority') %></th>
+            <th><%= t('admin.tasks.labels.assignee') %></th>
+            <th><%= t('admin.tasks.labels.deadline') %></th>
+            <th><%= t('admin.tasks.labels.comments') %></th>
+            <th><%= t('admin.tasks.labels.actions') %></th>
           </tr>
         </thead>
         <tbody>
           <% if @tasks.any? %>
             <% @tasks.each do |task| %>
               <tr>
-                <td><%= task.title %></td>
                 <td>
-                  <span class="badge <%= status_badge_class(task.status) %>">
-                    <%= Task.statuses.key(task.status).humanize %>
-                  </span>
+                  <%= link_to task.title, admin_list_task_path(task.list, task), class: "list-name-link" %>
                 </td>
                 <td>
-                  <span class="badge bg-secondary">
-                    <%= Task.priorities.key(task.priority).humanize %>
-                  </span>
+                  <% if task.status.present? %>
+                    <span class="badge <%= status_badge_class(task.status) %>">
+                      <%= t("admin.tasks.status.#{task.status}") %>
+                    </span>
+                  <% end %>
+                </td>
+                <td>
+                  <% if task.priority.present? %>
+                    <span class="badge bg-secondary">
+                      <%= t("admin.tasks.priority.#{task.priority}") %>
+                    </span>
+                  <% end %>
                 </td>
                 <td><%= task.assignee&.name || "Unassigned" %></td>
                 <td>
@@ -103,22 +118,15 @@
                 </td>
                 <td>
                   <div class="btn-group btn-group-sm" role="group">
-                    <% if @list %>
-                      <%= link_to "View", admin_list_task_path(@list, task), class: "btn btn-outline-primary" %>
-                      <%= link_to "Edit", edit_admin_list_task_path(@list, task), class: "btn btn-outline-secondary" %>
-                      <%= link_to "Delete", admin_list_task_path(@list, task), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-outline-danger" %>
-                    <% else %>
-                      <%= link_to "View", admin_task_path(task), class: "btn btn-outline-primary" %>
-                      <%= link_to "Edit", edit_admin_task_path(task), class: "btn btn-outline-secondary" %>
-                      <%= link_to "Delete", admin_task_path(task), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-outline-danger" %>
-                    <% end %>
+                    <%= link_to t('admin.tasks.index.edit'), edit_admin_list_task_path(task.list, task), class: "btn btn-outline-secondary" %>
+                    <%= link_to t('admin.tasks.index.delete'), admin_list_task_path(task.list, task), method: :delete, data: { confirm: t('admin.tasks.confirm_delete') }, class: "btn btn-outline-danger" %>
                   </div>
                 </td>
               </tr>
             <% end %>
           <% else %>
             <tr>
-              <td colspan="7" class="text-center text-muted">No tasks found</td>
+              <td colspan="7" class="text-center text-muted"><%= t('admin.tasks.index.no_tasks') %></td>
             </tr>
           <% end %>
         </tbody>
@@ -127,6 +135,112 @@
   </div>
 
   <div class="mt-4">
-    <%= paginate @tasks, theme: "bootstrap-5" %>
+    <%= paginate @tasks, theme: "bootstrap4" %>
   </div>
 </div>
+
+<style>
+  .search-filter-section {
+    padding: 12px 0;
+  }
+
+  .search-form {
+    width: 100%;
+  }
+
+  .search-inputs {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    margin-bottom: 12px;
+  }
+
+  .search-inputs.search-row {
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .search-inputs.filter-row {
+    gap: 6px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+
+  .search-field {
+    flex: 1 1 auto;
+    min-width: 250px;
+  }
+
+  .form-group {
+    margin-bottom: 0;
+  }
+
+  .search-row .form-group {
+    flex: 1;
+    min-width: 150px;
+  }
+
+  .filter-row .form-group {
+    flex: 0 0 auto;
+    min-width: 130px;
+  }
+
+  .filter-row .form-group label {
+    white-space: nowrap;
+    font-size: 0.8rem;
+  }
+
+  .filter-row .form-group .form-select {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.5rem;
+  }
+
+  .form-group label {
+    font-weight: 500;
+    margin-bottom: 4px;
+    display: block;
+    font-size: 0.875rem;
+    color: #495057;
+  }
+
+  .form-group .form-control,
+  .form-group .form-select {
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    background-color: #fff;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+
+  .form-group .form-control:focus,
+  .form-group .form-select:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+  }
+
+  .list-name-link {
+    color: #2c3e50 !important;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+
+  .list-name-link:hover {
+    color: #3498db !important;
+    text-decoration: underline;
+  }
+
+  .list-name-link:visited {
+    color: #2c3e50 !important;
+  }
+</style>

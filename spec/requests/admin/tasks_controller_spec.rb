@@ -246,7 +246,7 @@ RSpec.describe "Admin::TasksController", type: :request do
 
     it "sets a success flash message" do
       delete admin_list_task_path(list, task)
-      expect(flash[:notice]).to match(/destroyed/)
+      expect(flash[:notice]).to match(/deleted/)
     end
   end
 

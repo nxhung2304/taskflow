@@ -4,7 +4,7 @@ class Admin::TasksController < Admin::ApplicationController
   load_and_authorize_resource :task
   before_action :set_list, only: %i[index show new create edit update destroy]
   before_action :set_list_from_task, only: %i[show edit update destroy]
-  before_action :set_users_for_form, only: %i[new create edit update]
+  before_action :set_users_for_form, only: %i[index new create edit update]
 
   def index
     @tasks = list_specific? ? fetch_list_tasks : fetch_all_tasks
