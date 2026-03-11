@@ -1,6 +1,6 @@
 # Issue #45: Tasks Controller (CRUD)
 
-**Status:** Approved
+**Status:** Approved → PR: https://github.com/nxhung2304/taskflow/pull/108
 **GitHub Issue:** #45
 **Assignee:** —
 **Priority:** High

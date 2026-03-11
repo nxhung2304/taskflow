@@ -10,4 +10,7 @@ namespace :admin do
   resources :lists, only: [ :index, :new, :create, :edit, :update, :destroy ] do
     resources :tasks
   end
+
+  # Flat route for viewing all tasks
+  resources :tasks, only: [ :index ]
 end
