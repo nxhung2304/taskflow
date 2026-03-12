@@ -1,0 +1,23 @@
+<% content_for :page_title do %>
+  New Task
+<% end %>
+
+<% content_for :breadcrumb do %>
+  <%= link_to t('admin.sidebar.dashboard'), admin_root_path %> <span>></span>
+  <% if @list %>
+    <%= link_to t('admin.sidebar.boards'), admin_boards_path %> <span>></span>
+    <%= link_to @list.board.name, admin_board_path(@list.board) %> <span>></span>
+    <%= link_to t('admin.sidebar.lists'), admin_list_path(@list) %> <span>></span>
+    <%= link_to "Tasks", admin_list_tasks_path(@list) %> <span>></span>
+  <% end %>
+  <strong>New Task</strong>
+<% end %>
+
+<div class="container-fluid mt-4">
+
+  <div class="card">
+    <div class="card-body">
+      <%= render "form", task: @task %>
+    </div>
+  </div>
+</div>

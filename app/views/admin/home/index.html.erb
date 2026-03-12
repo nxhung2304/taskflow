@@ -57,7 +57,7 @@
       </div>
       <div class="stat-label"><%= t('admin.dashboard.total_tasks') %></div>
       <div class="stat-value"><%= @tasks_count %></div>
-      <span class="stat-badge"><%= t('admin.sidebar.soon') %></span>
+      <%= link_to t('admin.dashboard.view_all'), admin_tasks_path, class: "stat-link" %>
     </div>
   </div>
 </div>

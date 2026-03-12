@@ -80,4 +80,5 @@ end
 group :test do
   gem "shoulda-matchers"
   gem "simplecov", require: false
+  gem "rails-controller-testing"
 end

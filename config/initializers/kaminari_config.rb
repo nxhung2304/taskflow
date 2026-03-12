@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require "kaminari"
-require "kaminari/activerecord"
-
 Kaminari.configure do |config|
   # config.default_per_page = 25
   # config.max_per_page = nil

@@ -37,9 +37,11 @@ class Task < ApplicationRecord
   belongs_to :assignee, class_name: "User", optional: true
 
   # scopes
-  scope :with_status, ->(status) { where(status: status) }
-  scope :with_priority, ->(priority) { where(priority: priority) }
-  scope :with_assignee_id, ->(assignee_id) { where(assignee_id: assignee_id) }
+  scope :with_status, ->(status) { where(status: status) if status.present? }
+  scope :with_priority, ->(priority) { where(priority: priority) if priority.present? }
+  scope :with_assignee_id, ->(assignee_id) { where(assignee_id: assignee_id) if assignee_id.present? }
+  scope :by_title, ->(search) { where("title ILIKE ?", "%#{search}%") if search.present? }
+  scope :by_list, ->(list_id) { where(list_id: list_id) if list_id.present? }
 
   # enums
   enum :status, { todo: 0, in_progress: 1, completed: 2 }

@@ -1,0 +1,116 @@
+<% content_for :page_title do %>
+  <%= @task.title %>
+<% end %>
+
+<% content_for :breadcrumb do %>
+  <%= link_to t('admin.sidebar.dashboard'), admin_root_path %> <span>></span>
+  <%= link_to t('admin.sidebar.boards'), admin_boards_path %> <span>></span>
+  <%= link_to @list.board.name, admin_board_path(@list.board) %> <span>></span>
+  <%= link_to t('admin.sidebar.lists'), admin_list_path(@list) %> <span>></span>
+  <%= link_to "Tasks", admin_list_tasks_path(@list) %> <span>></span>
+  <strong><%= @task.title %></strong>
+<% end %>
+
+<% content_for :header_actions do %>
+  <%= link_to "Edit", edit_admin_list_task_path(@list, @task), class: "btn btn-secondary me-2" %>
+  <%= link_to "Delete", admin_list_task_path(@list, @task), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger" %>
+<% end %>
+
+<div class="container-fluid mt-4">
+
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card mb-4">
+        <div class="card-header bg-light">
+          <h5 class="mb-0">Task Details</h5>
+        </div>
+        <div class="card-body">
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <strong>Status:</strong><br>
+              <% if @task.status.present? %>
+                <span class="badge <%= status_badge_class(@task.status) %>">
+                  <%= @task.status.humanize %>
+                </span>
+              <% end %>
+            </div>
+            <div class="col-md-6">
+              <strong>Priority:</strong><br>
+              <% if @task.priority.present? %>
+                <span class="badge bg-secondary">
+                  <%= @task.priority.humanize %>
+                </span>
+              <% end %>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <strong>Assignee:</strong><br>
+              <%= @task.assignee&.name || "Unassigned" %>
+            </div>
+            <div class="col-md-6">
+              <strong>Deadline:</strong><br>
+              <% if @task.deadline %>
+                <%= @task.deadline.strftime("%Y-%m-%d") %>
+              <% else %>
+                <span class="text-muted">No deadline</span>
+              <% end %>
+            </div>
+          </div>
+
+          <% if @task.description.present? %>
+            <div class="mb-3">
+              <strong>Description:</strong><br>
+              <p><%= @task.description %></p>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header bg-light">
+          <h5 class="mb-0">Comments (<%= @task.comments_count %>)</h5>
+        </div>
+        <div class="card-body">
+          <% if @task.comments.any? %>
+            <% @task.comments.each do |comment| %>
+              <div class="mb-3 pb-3 border-bottom">
+                <strong><%= comment.user.name %></strong><br>
+                <small class="text-muted"><%= comment.created_at.strftime("%Y-%m-%d %H:%M") %></small><br>
+                <p><%= comment.content %></p>
+              </div>
+            <% end %>
+          <% else %>
+            <p class="text-muted">No comments yet</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header bg-light">
+          <h5 class="mb-0">Metadata</h5>
+        </div>
+        <div class="card-body">
+          <div class="mb-3">
+            <strong>List:</strong><br>
+            <%= @list.name %>
+          </div>
+          <div class="mb-3">
+            <strong>Board:</strong><br>
+            <%= @list.board.name %>
+          </div>
+          <div class="mb-3">
+            <strong>Created:</strong><br>
+            <%= @task.created_at.strftime("%Y-%m-%d %H:%M") %>
+          </div>
+          <div class="mb-3">
+            <strong>Updated:</strong><br>
+            <%= @task.updated_at.strftime("%Y-%m-%d %H:%M") %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
