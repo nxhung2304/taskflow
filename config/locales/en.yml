@@ -181,6 +181,8 @@ en:
         updated: Task updated successfully
         destroyed: Task deleted successfully
       confirm_delete: "Are you sure you want to delete this task? This action cannot be undone."
+      breadcrumb:
+        tasks: Tasks
       index: Tasks
       show: Task Details
       new: New Task
@@ -204,6 +206,12 @@ en:
         search: Search
         list: List
         actions: Actions
+        metadata: Metadata
+        no_deadline: No deadline
+        unassigned: Unassigned
+        no_comments: No comments yet
+        created: Created
+        updated: Updated
       filters:
         search_placeholder: "Search by title..."
         all_statuses: All Statuses
@@ -218,3 +226,12 @@ en:
         edit: Edit
         delete: Delete
         no_tasks: No tasks found
+      show:
+        title: Task Details
+        edit: Edit
+        delete: Delete
+        task_details: Task Details
+        metadata: Metadata
+      new:
+        title: New Task
+        breadcrumb: New Task
