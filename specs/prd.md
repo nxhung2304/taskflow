@@ -43,8 +43,8 @@
 
 **CRUD Operations**
 - [x] Boards controller (CRUD + ownership) - [#43](https://github.com/nxhung2304/taskflow/issues/43)
-- [ ] Lists controller (CRUD) - [#44](https://github.com/nxhung2304/taskflow/issues/44)
-- [ ] Tasks controller (CRUD) - [#45](https://github.com/nxhung2304/taskflow/issues/45)
+- [x] Lists controller (CRUD) - [#44](https://github.com/nxhung2304/taskflow/issues/44)
+- [x] Tasks controller (CRUD) - [#45](https://github.com/nxhung2304/taskflow/issues/45)
 - [ ] Comments controller (CRUD) - [#46](https://github.com/nxhung2304/taskflow/issues/46)
 
 **Search & Filtering**
